@@ -67,7 +67,7 @@ val JetnewsTypography = Typography(
         fontSize = 14.sp
     ),
     body1 = TextStyle(
-        fontFamily = Domine,
+        fontFamily = Spoqahan,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),

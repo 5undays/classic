@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">클래식 영화</string>
     <string name="app_title">클래식 영화</string>
-    <string name="top">칼럼</string>
+    <string name="critic">평론</string>
     <string name="popular">오늘의 명화</string>
-    <string name="read_time">%1$d min read</string>
     <string name="korean_film">한국의 명화</string>
 </resources>
