@@ -1,5 +1,6 @@
-//package com.cinema.classic.ui
-//
+package com.cinema.classic.ui
+
+//import android.view.View
 //import android.widget.Toast
 //import androidx.activity.ComponentActivity
 //import androidx.appcompat.app.AppCompatActivity
@@ -8,9 +9,12 @@
 //import androidx.compose.ui.Modifier
 //import androidx.compose.ui.platform.LocalContext
 //import androidx.compose.ui.viewinterop.AndroidView
+//import androidx.fragment.app.FragmentActivity
 //import androidx.fragment.app.FragmentContainerView
+//import androidx.fragment.app.FragmentManager
 //import androidx.fragment.app.commit
 //import com.cinema.classic.R
+//import com.google.android.youtube.player.YouTubeBaseActivity
 //import com.google.android.youtube.player.YouTubeInitializationResult
 //import com.google.android.youtube.player.YouTubePlayer
 //import com.google.android.youtube.player.YouTubePlayerSupportFragmentXKt
@@ -21,9 +25,8 @@
 //    val ctx = LocalContext.current
 //    AndroidView(
 //        factory = {
-//            val fm = (ctx as AppCompatActivity).supportFragmentManager
 //            val view = FragmentContainerView(it).apply {
-//                id = androidx.fragment.R.id.fragment_container_view_tag
+//                id = androidx.fragment.R.id.youtube_layout
 //            }
 //            val fragment = YouTubePlayerSupportFragmentXKt().apply {
 //                initialize(

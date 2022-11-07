@@ -4,4 +4,5 @@
     <string name="critic">평론</string>
     <string name="popular">오늘의 명화</string>
     <string name="korean_film">한국의 명화</string>
+    <string name="GOOGLE_API_KEY">AIzaSyDcBkLYiDrMo2RsNsCds4BKKpoJbfrthrQ</string>
 </resources>

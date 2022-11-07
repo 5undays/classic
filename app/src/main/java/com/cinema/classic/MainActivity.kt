@@ -1,14 +1,9 @@
 package com.cinema.classic
 
 import android.content.Intent
-import android.content.res.Resources.Theme
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,37 +11,29 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.commit
-import androidx.lifecycle.MutableLiveData
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import com.cinema.classic.model.*
+import com.cinema.classic.model.Item
+import com.cinema.classic.model.Snippet
+import com.cinema.classic.model.Youtube
+import com.cinema.classic.model.YoutubeRepo
 import com.cinema.classic.theme.JetnewsTheme
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubePlayer
-import com.google.android.youtube.player.YouTubePlayerSupportFragmentXKt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,9 +148,15 @@ fun PostItem(
     modifier: Modifier = Modifier
 ) {
     var title = post.snippet.title.split("/")
+    val ctx = LocalContext.current
+
     Card(
         modifier = modifier
-            .clickable { /**/ }
+            .clickable {
+                val intent = Intent(ctx, YoutubeActivity::class.java)
+                intent.putExtra("video_id", post.id.videoId)
+                ctx.startActivity(intent)
+            }
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .height(150.dp)
     ) {
@@ -195,54 +188,4 @@ private fun PostItemPreview() {
             PostItem(post = post)
         }
     }
-}
-
-@Composable
-fun YouTubeScreen1() {
-    val videoId = "FHZ6bI3zb4M"
-    val ctx = LocalContext.current
-    AndroidView(
-        factory = {
-            val fm = (ctx as AppCompatActivity).supportFragmentManager
-            val view = FragmentContainerView(it).apply {
-                id = androidx.fragment.R.id.fragment_container_view_tag
-            }
-            val fragment = YouTubePlayerSupportFragmentXKt().apply {
-                initialize(
-                    "AIzaSyDcBkLYiDrMo2RsNsCds4BKKpoJbfrthrQ", // api key
-                    object : YouTubePlayer.OnInitializedListener {
-                        override fun onInitializationFailure(
-                            provider: YouTubePlayer.Provider,
-                            result: YouTubeInitializationResult
-                        ) {
-                            Toast.makeText(
-                                context,
-                                "Error initializing video",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-
-                        override fun onInitializationSuccess(
-                            provider: YouTubePlayer.Provider,
-                            player: YouTubePlayer,
-                            wasRestored: Boolean
-                        ) {
-                            // TODO closing this screen when the player is in fullscreen
-                            //  is making the app keep in landscape. Disabling for now.
-                            player.setShowFullscreenButton(false)
-                            if (!wasRestored) {
-                                player.cueVideo(videoId)
-                            }
-                        }
-                    },
-                )
-            }
-            fm.commit {
-                setReorderingAllowed(true)
-                add(androidx.fragment.R.id.fragment_container_view_tag, fragment)
-            }
-            view
-        },
-        modifier = Modifier.fillMaxSize()
-    )
 }
