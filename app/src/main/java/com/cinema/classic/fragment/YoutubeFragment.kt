@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.cinema.classic.databinding.FragmentExampleBinding
+import com.cinema.classic.databinding.FragmentYoutubeBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
 
-class FragmentExampleFragment : Fragment() {
-
-    private lateinit var binding: FragmentExampleBinding
+class YoutubeFragment : Fragment() {
+    private lateinit var binding: FragmentYoutubeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +23,7 @@ class FragmentExampleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
-        binding = FragmentExampleBinding.inflate(inflater, container, false)
+        binding = FragmentYoutubeBinding.inflate(inflater, container, false)
         binding.youtubePlayerView.addYouTubePlayerListener(object :
             AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {

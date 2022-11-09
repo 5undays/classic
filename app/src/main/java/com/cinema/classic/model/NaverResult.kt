@@ -1,7 +1,5 @@
 package com.cinema.classic.model
 
-import retrofit2.Call
-
 data class NaverResult(
     val lastBuildDate: String,
     val total: Int,
