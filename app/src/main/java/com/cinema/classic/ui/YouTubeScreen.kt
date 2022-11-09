@@ -1,69 +1,48 @@
-package com.cinema.classic.ui
-
+//package com.cinema.classic.ui
+//
+//import android.os.Bundle
+//import android.view.LayoutInflater
 //import android.view.View
-//import android.widget.Toast
-//import androidx.activity.ComponentActivity
-//import androidx.appcompat.app.AppCompatActivity
-//import androidx.compose.foundation.layout.fillMaxSize
-//import androidx.compose.runtime.Composable
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.platform.LocalContext
-//import androidx.compose.ui.viewinterop.AndroidView
-//import androidx.fragment.app.FragmentActivity
-//import androidx.fragment.app.FragmentContainerView
-//import androidx.fragment.app.FragmentManager
-//import androidx.fragment.app.commit
-//import com.cinema.classic.R
-//import com.google.android.youtube.player.YouTubeBaseActivity
-//import com.google.android.youtube.player.YouTubeInitializationResult
-//import com.google.android.youtube.player.YouTubePlayer
-//import com.google.android.youtube.player.YouTubePlayerSupportFragmentXKt
+//import android.view.ViewGroup
+//import androidx.fragment.app.Fragment
+//import com.google.android.youtube.player.*
 //
-//@Composable
-//fun YouTubeScreen() {
-//    val videoId = "FHZ6bI3zb4M"
-//    val ctx = LocalContext.current
-//    AndroidView(
-//        factory = {
-//            val view = FragmentContainerView(it).apply {
-//                id = androidx.fragment.R.id.youtube_layout
-//            }
-//            val fragment = YouTubePlayerSupportFragmentXKt().apply {
-//                initialize(
-//                    "AIzaSyDcBkLYiDrMo2RsNsCds4BKKpoJbfrthrQ", // api key
-//                    object : YouTubePlayer.OnInitializedListener {
-//                        override fun onInitializationFailure(
-//                            provider: YouTubePlayer.Provider,
-//                            result: YouTubeInitializationResult
-//                        ) {
-//                            Toast.makeText(
-//                                context,
-//                                "Error initializing video",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                        }
+//class VideoPlayerFragment : Fragment() {
 //
-//                        override fun onInitializationSuccess(
-//                            provider: YouTubePlayer.Provider,
-//                            player: YouTubePlayer,
-//                            wasRestored: Boolean
-//                        ) {
-//                            // TODO closing this screen when the player is in fullscreen
-//                            //  is making the app keep in landscape. Disabling for now.
-//                            player.setShowFullscreenButton(false)
-//                            if (!wasRestored) {
-//                                player.cueVideo(videoId)
-//                            }
-//                        }
-//                    },
-//                )
+//    private var link: String? = null
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//
+////        arguments?.let {
+////            val safeArgs = VideoPlayerFragmentArgs.fromBundle(it)
+////            link = safeArgs.link
+////        }
+//
+////        val youtubePlayerFragment = YouTubePlayerSupportFragmentXKt.newInstance()
+////        val transaction = childFragmentManager.beginTransaction()
+////        transaction.replace(R.id.player, youtubePlayerFragment).commit()
+//        val playerView : YouTubePlayerSupportFragmentXKt = supportFragmentManager.findFragmentById(R.id.fragPlayer) as YouTubePlayerSupportFragmentX
+//        playerView.initialize(getString(R.string.YOUTUBE_API_KEY), this)
+//
+//        youtubePlayerFragment.initialize(resources.getString(R.string.API_KEY), object : YouTubePlayer.OnInitializedListener {
+//            override fun onInitializationSuccess(
+//                p0: YouTubePlayer.Provider?,
+//                p1: YouTubePlayer?,
+//                p2: Boolean
+//            ) {
+//                p1?.loadVideo(link)
 //            }
-//            fm.commit {
-//                setReorderingAllowed(true)
-//                add(androidx.fragment.R.id.fragment_container_view_tag, fragment)
+//
+//            override fun onInitializationFailure(
+//                p0: YouTubePlayer.Provider?,
+//                p1: YouTubeInitializationResult?
+//            ) {
 //            }
-//            view
-//        },
-//        modifier = Modifier.fillMaxSize()
-//    )
+//        })
+//
+//        return inflater.inflate(R.layout.fragment_video_player, container, false)
+//    }
 //}

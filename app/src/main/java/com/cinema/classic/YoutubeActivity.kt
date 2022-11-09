@@ -1,32 +1,45 @@
 package com.cinema.classic
 
 import android.os.Bundle
-import android.widget.Toast
-import com.google.android.youtube.player.YouTubeBaseActivity
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubePlayer
-import kotlinx.android.synthetic.main.youtube_layout.*
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.fragment.app.FragmentActivity
+import com.cinema.classic.databinding.MyFragmentLayoutBinding
+import com.cinema.classic.fragment.FragmentExampleFragment
+import com.cinema.classic.model.YoutubeRepo
+import com.cinema.classic.theme.JetnewsTheme
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import kotlinx.android.synthetic.main.my_fragment_layout.*
 
-class YoutubeActivity : YouTubeBaseActivity() {
 
-    lateinit var youtubePlayerInit: YouTubePlayer.OnInitializedListener
+class YoutubeActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.youtube_layout)
-        intent.getStringExtra("video_id")?.let { initUI(it) }
-    }
-
-    private fun initUI(video_id:String) {
-        youtubePlayerInit = object : YouTubePlayer.OnInitializedListener {
-            override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, youtubePlayer: YouTubePlayer?, p2: Boolean) {
-                youtubePlayer?.loadVideo(video_id)
-            }
-
-            override fun onInitializationFailure(p0: YouTubePlayer.Provider?, p1: YouTubeInitializationResult?) {
-                Toast.makeText(applicationContext, "Something went wrong !! ", Toast.LENGTH_SHORT).show()
-            }
+        setContent {
+            FragmentInComposeExample()
         }
-        youtubePlayer.initialize(getString(R.string.GOOGLE_API_KEY), youtubePlayerInit)
     }
-
 }
+
+@Composable
+fun FragmentInComposeExample() {
+    AndroidViewBinding(MyFragmentLayoutBinding::inflate) {
+        val myFragment = fragmentContainerView.getFragment<FragmentExampleFragment>()
+        // ...
+    }
+}
+
+//@Preview("Post Item")
+//@Composable
+//private fun PostItemPreview() {
+//    FragmentInComposeExample()
+//}

@@ -31,6 +31,7 @@ import com.cinema.classic.model.Snippet
 import com.cinema.classic.model.Youtube
 import com.cinema.classic.model.YoutubeRepo
 import com.cinema.classic.theme.JetnewsTheme
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
