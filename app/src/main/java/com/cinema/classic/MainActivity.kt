@@ -1,6 +1,7 @@
 package com.cinema.classic
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,22 +31,23 @@ import com.cinema.classic.model.Item
 import com.cinema.classic.model.Snippet
 import com.cinema.classic.model.Youtube
 import com.cinema.classic.model.YoutubeRepo
-import com.cinema.classic.theme.JetnewsTheme
+import com.cinema.classic.theme.ClassicTheme
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.cinema.classic.Retrofit.api
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Home()
+            Home(stringResource(R.string.google_api_url))
         }
     }
 }
 
-fun InitializeMovieData(result: MutableList<Item>) {
-    com.cinema.classic.Retrofit.api.get("snippet", "UCvH6u_Qzn5RQdz9W198umDw", "date")
+fun initializeMovieData(url:String, result: MutableList<Item>) {
+    api.get(url,"snippet", "UCvH6u_Qzn5RQdz9W198umDw", "date")
         .enqueue(object : Callback<Youtube> {
             override fun onResponse(call: Call<Youtube>, response: Response<Youtube>) {
                 var list: List<Item>? = response.body()?.items
@@ -63,11 +65,11 @@ fun InitializeMovieData(result: MutableList<Item>) {
 }
 
 @Composable
-fun Home() {
+fun Home(url: String) {
     val posts = remember { mutableStateListOf<Item>() }
-    InitializeMovieData(posts)
+    initializeMovieData(url, posts)
 
-    JetnewsTheme {
+    ClassicTheme {
         Scaffold(
             topBar = { AppBar() }
         ) { innerPadding ->
@@ -147,13 +149,16 @@ fun PostItem(
     post: Item,
     modifier: Modifier = Modifier
 ) {
-    var title = post.snippet.title.split("/")
+    var title = remember {
+        post.snippet.title.split("/")
+    }
     val ctx = LocalContext.current
 
     Card(
         modifier = modifier
             .clickable {
                 val intent = Intent(ctx, YoutubeActivity::class.java)
+                intent.putExtra("title", post.snippet.title)
                 intent.putExtra("video_id", post.id.videoId)
                 ctx.startActivity(intent)
             }
@@ -179,11 +184,10 @@ fun PostItem(
 @Preview("Post Item")
 @Composable
 private fun PostItemPreview() {
-    //val post = remember { PostRepo.getFeaturedPost() }
     val post = remember {
         YoutubeRepo.getFeaturedPost()
     }
-    JetnewsTheme {
+    ClassicTheme {
         Surface {
             PostItem(post = post)
         }

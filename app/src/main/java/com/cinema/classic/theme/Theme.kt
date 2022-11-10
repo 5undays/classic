@@ -42,7 +42,7 @@ private val DarkColors = darkColors(
 )
 
 @Composable
-fun JetnewsTheme(
+fun ClassicTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
@@ -50,6 +50,18 @@ fun JetnewsTheme(
         colors = if (darkTheme) DarkColors else LightColors,
         typography = JetnewsTypography,
         shapes = JetnewsShapes,
+        content = content
+    )
+}
+
+@Composable
+fun ClassicTheme2(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colors = if (darkTheme) DarkColors else LightColors,
+        typography = JetnewsTypography,
         content = content
     )
 }
