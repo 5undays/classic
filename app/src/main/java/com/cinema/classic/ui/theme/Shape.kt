@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cinema.classic.theme
+package com.cinema.classic.ui.theme
 
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape

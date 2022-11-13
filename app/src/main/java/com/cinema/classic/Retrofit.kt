@@ -1,6 +1,6 @@
 package com.cinema.classic
 
-import com.cinema.classic.service.MovieService
+import com.cinema.classic.data.movie.MovieRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -11,7 +11,7 @@ object Retrofit {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val _api = naver_retrofit.create(MovieService::class.java)
+    private val _api = naver_retrofit.create(MovieRepository::class.java)
     val api
         get() = _api
 }

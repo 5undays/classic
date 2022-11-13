@@ -31,11 +31,12 @@ import com.cinema.classic.model.Item
 import com.cinema.classic.model.Snippet
 import com.cinema.classic.model.Youtube
 import com.cinema.classic.model.YoutubeRepo
-import com.cinema.classic.theme.ClassicTheme
+import com.cinema.classic.ui.theme.ClassicTheme
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.cinema.classic.Retrofit.api
+import com.cinema.classic.data.movie.impl.MovieService
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,28 +47,28 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun initializeMovieData(url:String, result: MutableList<Item>) {
-    api.get(url,"snippet", "UCvH6u_Qzn5RQdz9W198umDw", "date")
-        .enqueue(object : Callback<Youtube> {
-            override fun onResponse(call: Call<Youtube>, response: Response<Youtube>) {
-                var list: List<Item>? = response.body()?.items
-                if (list != null) {
-                    for (i in 0 until list.size) {
-                        // on below line we are adding data to course list.
-                        list?.get(i)?.let { result.add(it) }
-                    }
+fun initializeMovieData(url: String, result: MutableList<Item>) {
+    api.get(url).enqueue(object : Callback<Youtube> {
+        override fun onResponse(call: Call<Youtube>, response: Response<Youtube>) {
+            var list: List<Item>? = response.body()?.items
+            if (list != null) {
+                for (i in 0 until list.size) {
+                    // on below line we are adding data to course list.
+                    list?.get(i)?.let { result.add(it) }
                 }
             }
+        }
 
-            override fun onFailure(call: Call<Youtube>, t: Throwable) {
-            }
-        })
+        override fun onFailure(call: Call<Youtube>, t: Throwable) {
+        }
+    })
 }
 
 @Composable
 fun Home(url: String) {
     val posts = remember { mutableStateListOf<Item>() }
     initializeMovieData(url, posts)
+    //val posts = remember { MovieService().get(url).execute().body() }
 
     ClassicTheme {
         Scaffold(
@@ -103,25 +104,6 @@ private fun AppBar() {
         },
         backgroundColor = MaterialTheme.colors.primarySurface
     )
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Composable
-private fun PostMetadata(
-    post: Snippet,
-    modifier: Modifier = Modifier
-) {
-    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-        Text(
-            text = post.publishedAt,
-            style = MaterialTheme.typography.body2,
-            modifier = modifier
-        )
-    }
 }
 
 @Composable
