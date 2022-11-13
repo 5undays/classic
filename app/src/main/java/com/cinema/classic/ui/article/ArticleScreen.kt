@@ -30,7 +30,6 @@ import com.cinema.classic.ui.theme.ClassicTheme
 import com.cinema.classic.ui.utils.BookmarkButton
 import com.cinema.classic.ui.utils.FavoriteButton
 import com.cinema.classic.ui.utils.ShareButton
-import com.example.jetnews.ui.article.PostContent
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -62,7 +61,7 @@ fun ArticleScreen(
     Row(modifier.fillMaxSize()) {
         val context = LocalContext.current
         ArticleScreenContent(
-            post = post,
+            movie = post,
             // Allow opening the Drawer if the screen is not expanded
             navigationIconContent = {
                 if (!isExpandedScreen) {
@@ -96,14 +95,14 @@ fun ArticleScreen(
 /**
  * Stateless Article Screen that displays a single post.
  *
- * @param post (state) item to display
+ * @param movie (state) item to display
  * @param navigationIconContent (UI) content to show for the navigation icon
  * @param bottomBarContent (UI) content to show for the bottom bar
  */
 @ExperimentalMaterial3Api
 @Composable
 private fun ArticleScreenContent(
-    post: NaverMovie,
+    movie: NaverMovie,
     navigationIconContent: @Composable () -> Unit = { },
     bottomBarContent: @Composable () -> Unit = { },
     lazyListState: LazyListState = rememberLazyListState()
@@ -113,7 +112,7 @@ private fun ArticleScreenContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = post.director.orEmpty(),
+                title = movie.director.orEmpty(),
                 navigationIconContent = navigationIconContent,
                 scrollBehavior = scrollBehavior
             )
@@ -122,7 +121,7 @@ private fun ArticleScreenContent(
     ) { innerPadding ->
         PostContent(
             video_id = "",
-            post = post,
+            post = movie,
             modifier = Modifier
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
                 // innerPadding takes into account the top and bottom bar
@@ -151,7 +150,7 @@ private fun TopAppBar(
 //                        .size(36.dp)
 //                )
                 Text(
-                    text = stringResource(R.string.published_in, title),
+                    text = stringResource(R.string.app_name, title),
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding(start = 8.dp)
                 )

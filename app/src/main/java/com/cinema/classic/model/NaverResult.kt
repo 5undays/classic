@@ -9,7 +9,7 @@ data class NaverResult(
 )
 
 data class NaverMovie(
-    val title:String,
+    var title:String,
     val link:String,
     val image:String,
     val subtitle:String,

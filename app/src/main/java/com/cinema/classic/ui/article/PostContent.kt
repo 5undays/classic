@@ -1,20 +1,4 @@
-/*
- * Copyright 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.example.jetnews.ui.article
+package com.cinema.classic.ui.article
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
@@ -52,6 +36,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -97,7 +82,11 @@ fun PostContent(
 fun LazyListScope.postContentItems(video_id:String, post: NaverMovie) {
     item {
         //PostHeaderImage(post)
-        //YoutubePlayerView(video_id)
+        if (LocalInspectionMode.current) {
+
+        } else {
+            YoutubePlayerView(video_id)
+        }
         Spacer(Modifier.height(defaultSpacerSize))
         Text(post.title.replace("<b>","").replace("</b>", "") + ", " + post.pubDate, style = MaterialTheme.typography.headlineLarge)
         Spacer(Modifier.height(8.dp))

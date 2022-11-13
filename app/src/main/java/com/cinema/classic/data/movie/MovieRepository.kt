@@ -14,7 +14,7 @@ interface MovieRepository {
         "X-Naver-Client-Secret: Y19lKc_Nv9"
     )
     @GET
-    open fun get(@Url url: String, @Query("query") post: String?): Call<NaverResult>
+    open fun get2(@Url url: String, @Query("query") post: String?): Call<NaverResult>
 
     @GET
     open fun get(

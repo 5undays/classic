@@ -1,29 +1,26 @@
 package com.cinema.classic
 
-import android.content.res.Resources
 import android.os.Bundle
-import android.provider.Settings.System.getString
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.FragmentActivity
+import com.cinema.classic.data.movie.impl.MovieService
 import com.cinema.classic.databinding.FragmentContainerYoutubeBinding
 import com.cinema.classic.fragment.YoutubeFragment
-import com.cinema.classic.model.Item
+import com.cinema.classic.model.NaverMovie
+import com.cinema.classic.model.NaverResult
 import com.cinema.classic.model.Snippet
-import com.cinema.classic.model.Youtube
-import com.cinema.classic.ui.theme.ClassicTheme
+import com.cinema.classic.ui.article.ArticleScreen
 import com.cinema.classic.ui.theme.ClassicTheme2
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,26 +36,48 @@ class YoutubeActivity : FragmentActivity() {
             if (video_id != null && title != null) {
                 contentView(video_id = video_id, title = title[0] + "\n" + title[1])
             }
+//            val posts = remember { mutableStateOf(NaverMovie(
+//                title = "",
+//                link = "",
+//                image = "",
+//                subtitle = "",
+//                pubDate = "",
+//                director = "",
+//                actor = "",
+//                userRating = ""
+//            )) }
+//            title?.get(0)?.let {
+//                MovieService().getMovieData(stringResource(R.string.naver_api_url),
+//                    it, posts)
+//                ArticleScreen(posts.value, true, {}, false, {})
+//            }
         }
     }
 }
 
-fun getMovieData(url: String, result: MutableList<Item>) {
-    Retrofit.api.get(url, "snippet", "UCvH6u_Qzn5RQdz9W198umDw", "date")
-        .enqueue(object : Callback<Youtube> {
-            override fun onResponse(call: Call<Youtube>, response: Response<Youtube>) {
-                var list: List<Item>? = response.body()?.items
-                if (list != null) {
-                    for (i in 0 until list.size) {
-                        // on below line we are adding data to course list.
-                        list?.get(i)?.let { result.add(it) }
-                    }
-                }
-            }
+@Composable
+fun test(title: String) {
+    var result: NaverMovie = NaverMovie(
+        title = "",
+        link = "",
+        image = "",
+        subtitle = "",
+        pubDate = "",
+        director = "",
+        actor = "",
+        userRating = ""
+    )
+    Retrofit.api.get2(stringResource(R.string.naver_api_url), title).enqueue(object :
+        Callback<NaverResult> {
+        override fun onResponse(call: Call<NaverResult>, response: Response<NaverResult>) {
+            var result : NaverMovie? = response.body()?.items?.get(0)
+        }
 
-            override fun onFailure(call: Call<Youtube>, t: Throwable) {
-            }
-        })
+        override fun onFailure(call: Call<NaverResult>, t: Throwable) {
+            TODO("Not yet implemented")
+        }
+    })
+    ArticleScreen(result, true, {}, false, {})
 }
 
 @Composable

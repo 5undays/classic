@@ -1,7 +1,6 @@
 package com.cinema.classic
 
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,7 +12,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -27,16 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.cinema.classic.data.movie.impl.MovieService
 import com.cinema.classic.model.Item
-import com.cinema.classic.model.Snippet
-import com.cinema.classic.model.Youtube
 import com.cinema.classic.model.YoutubeRepo
 import com.cinema.classic.ui.theme.ClassicTheme
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import com.cinema.classic.Retrofit.api
-import com.cinema.classic.data.movie.impl.MovieService
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,29 +38,18 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-fun initializeMovieData(url: String, result: MutableList<Item>) {
-    api.get(url).enqueue(object : Callback<Youtube> {
-        override fun onResponse(call: Call<Youtube>, response: Response<Youtube>) {
-            var list: List<Item>? = response.body()?.items
-            if (list != null) {
-                for (i in 0 until list.size) {
-                    // on below line we are adding data to course list.
-                    list?.get(i)?.let { result.add(it) }
-                }
-            }
-        }
-
-        override fun onFailure(call: Call<Youtube>, t: Throwable) {
-        }
-    })
-}
+//
+//@Override
+//fun onPause() {
+//    onPause().un
+//    unregisterReceiver
+//}
 
 @Composable
 fun Home(url: String) {
+    //val posts = remember { (MovieService().get(url) as com.cinema.classic.data.Result.Success).data }
     val posts = remember { mutableStateListOf<Item>() }
-    initializeMovieData(url, posts)
-    //val posts = remember { MovieService().get(url).execute().body() }
+    MovieService().initializeMovieData(url, posts)
 
     ClassicTheme {
         Scaffold(
@@ -139,9 +120,10 @@ fun PostItem(
     Card(
         modifier = modifier
             .clickable {
-                val intent = Intent(ctx, YoutubeActivity::class.java)
-                intent.putExtra("title", post.snippet.title)
-                intent.putExtra("video_id", post.id.videoId)
+                val intent = Intent(ctx, YoutubeActivity::class.java).apply {
+                    putExtra("title", post.snippet.title)
+                    putExtra("video_id", post.id.videoId)
+                }
                 ctx.startActivity(intent)
             }
             .padding(vertical = 4.dp, horizontal = 8.dp)
