@@ -42,4 +42,9 @@ class YoutubeFragment : Fragment() {
         val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
         binding.youtubePlayerView.initialize(listener, options)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.youtubePlayerView.release()
+    }
 }
