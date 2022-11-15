@@ -7,16 +7,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.*
 import com.cinema.classic.data.movie.impl.MovieService
 import com.cinema.classic.databinding.FragmentContainerYoutubeBinding
 import com.cinema.classic.fragment.YoutubeFragment
+import com.cinema.classic.model.MainActivityViewModel
 import com.cinema.classic.model.NaverMovie
 import com.cinema.classic.model.NaverResult
 import com.cinema.classic.model.Snippet
@@ -25,59 +30,83 @@ import com.cinema.classic.ui.theme.ClassicTheme2
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
+private lateinit var viewModel: MainActivityViewModel
 
 class YoutubeActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
             val video_id = intent.getStringExtra("video_id")
             val title = intent.getStringExtra("title")?.split("/")
             if (video_id != null && title != null) {
-                contentView(video_id = video_id, title = title[0] + "\n" + title[1])
+                //contentView(video_id = video_id, title = title[0] + "\n" + title[1])
+                test(title.get(0).split("(").get(0), video_id)
+                //HelloScreen()
+                //Greeting()
+
             }
-//            val posts = remember { mutableStateOf(NaverMovie(
-//                title = "",
-//                link = "",
-//                image = "",
-//                subtitle = "",
-//                pubDate = "",
-//                director = "",
-//                actor = "",
-//                userRating = ""
-//            )) }
-//            title?.get(0)?.let {
-//                MovieService().getMovieData(stringResource(R.string.naver_api_url),
-//                    it, posts)
-//                ArticleScreen(posts.value, true, {}, false, {})
-//            }
         }
     }
 }
 
-@Composable
-fun test(title: String) {
-    var result: NaverMovie = NaverMovie(
-        title = "",
-        link = "",
-        image = "",
-        subtitle = "",
-        pubDate = "",
-        director = "",
-        actor = "",
-        userRating = ""
-    )
-    Retrofit.api.get2(stringResource(R.string.naver_api_url), title).enqueue(object :
-        Callback<NaverResult> {
-        override fun onResponse(call: Call<NaverResult>, response: Response<NaverResult>) {
-            var result : NaverMovie? = response.body()?.items?.get(0)
-        }
 
-        override fun onFailure(call: Call<NaverResult>, t: Throwable) {
-            TODO("Not yet implemented")
-        }
-    })
-    ArticleScreen(result, true, {}, false, {})
+@Composable
+fun test(title: String, video_id: String) {
+    val data1 by viewModel.data.observeAsState(
+        NaverMovie(
+            title = "",
+            link = "",
+            image = "",
+            subtitle = "",
+            pubDate = "",
+            director = "",
+            actor = "",
+            userRating = ""
+        )
+    )
+    var name by rememberSaveable { mutableStateOf("") }
+    Retrofit.api.get2(stringResource(R.string.naver_api_url), title)
+        .enqueue(object : Callback<NaverResult> {
+            override fun onResponse(call: Call<NaverResult>, response: Response<NaverResult>) {
+                val n: NaverMovie? = response.body()?.items?.get(0)
+
+                if (n != null) {
+                    viewModel.test(n)
+                }
+            }
+
+            override fun onFailure(call: Call<NaverResult>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    ArticleScreen(video_id, data1, {}, title, true, {}, false, {})
+}
+
+@Composable
+fun HelloScreen() {
+    var name by rememberSaveable { mutableStateOf("") }
+
+    HelloContent(name = name, onNameChange = { name = it })
+}
+
+@Composable
+fun HelloContent(name: String, onNameChange: (String) -> Unit) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = "Hello, $name",
+            modifier = Modifier.padding(bottom = 8.dp),
+            style = MaterialTheme.typography.h5
+        )
+        OutlinedTextField(
+            value = name,
+            onValueChange = onNameChange,
+            label = { Text("Name") }
+        )
+    }
 }
 
 @Composable
@@ -101,6 +130,7 @@ private fun PostMetadata(
         )
     }
 }
+
 @Composable
 fun contentView(video_id: String, title: String) {
     //val data = remember {}

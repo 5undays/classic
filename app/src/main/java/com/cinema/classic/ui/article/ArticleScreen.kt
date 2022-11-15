@@ -11,11 +11,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -44,8 +41,11 @@ import kotlinx.coroutines.runBlocking
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticleScreen(
+fun     ArticleScreen(
+    video_id:String,
     post: NaverMovie,
+    onPostChange: (NaverMovie) -> Unit,
+    title: String,
     isExpandedScreen: Boolean,
     onBack: () -> Unit,
     isFavorite: Boolean,
@@ -57,10 +57,12 @@ fun ArticleScreen(
     if (showUnimplementedActionDialog) {
         FunctionalityNotAvailablePopup { showUnimplementedActionDialog = false }
     }
-
+    val onDismissState by rememberUpdatedState(onPostChange)
+    onDismissState(post)
     Row(modifier.fillMaxSize()) {
         val context = LocalContext.current
         ArticleScreenContent(
+            video_id = video_id,
             movie = post,
             // Allow opening the Drawer if the screen is not expanded
             navigationIconContent = {
@@ -81,7 +83,7 @@ fun ArticleScreen(
                         actions = {
                             FavoriteButton(onClick = { showUnimplementedActionDialog = true })
                             BookmarkButton(isBookmarked = isFavorite, onClick = onToggleFavorite)
-                            ShareButton(onClick = { sharePost(post, context) })
+                            ShareButton(onClick = { sharePost(post, context)  })
                             //TextSettingsButton(onClick = { showUnimplementedActionDialog = true })
                         }
                     )
@@ -102,6 +104,7 @@ fun ArticleScreen(
 @ExperimentalMaterial3Api
 @Composable
 private fun ArticleScreenContent(
+    video_id:String,
     movie: NaverMovie,
     navigationIconContent: @Composable () -> Unit = { },
     bottomBarContent: @Composable () -> Unit = { },
@@ -119,15 +122,15 @@ private fun ArticleScreenContent(
         },
         bottomBar = bottomBarContent
     ) { innerPadding ->
-        PostContent(
-            video_id = "",
-            post = movie,
-            modifier = Modifier
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                // innerPadding takes into account the top and bottom bar
-                .padding(innerPadding),
-            state = lazyListState,
-        )
+            PostContent(
+                video_id = video_id,
+                post = movie,
+                modifier = Modifier
+                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    // innerPadding takes into account the top and bottom bar
+                    .padding(innerPadding),
+                state = lazyListState,
+            )
     }
 }
 
@@ -215,7 +218,7 @@ fun PreviewArticleDrawer() {
             movie1.items[0]
             //(BlockingFakePostsRepository().getPost(post3.id) as Result.Success).data
         }
-        ArticleScreen(post, false, {}, false, {})
+        ArticleScreen("test",post, {},"",false, {}, false, {})
     }
 }
 
@@ -232,6 +235,6 @@ fun PreviewArticleNavRail() {
         val post = runBlocking {
             movie1.items[0]
         }
-        ArticleScreen(post, true, {}, false, {})
+        ArticleScreen("test", post, {},"",true, {}, false, {})
     }
 }

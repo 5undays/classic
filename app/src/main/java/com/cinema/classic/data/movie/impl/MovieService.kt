@@ -1,6 +1,8 @@
 package com.cinema.classic.data.movie.impl
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.sourceInformation
+import androidx.lifecycle.MutableLiveData
 import com.cinema.classic.Retrofit
 import com.cinema.classic.data.movie.MovieRepository
 import com.cinema.classic.model.Item
@@ -12,11 +14,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MovieService {
-    fun getMovieData(url: String, title: String, result: MutableState<NaverMovie>){
+    fun getMovieData(url: String, title: String) : MutableLiveData<NaverMovie>{
+        val result = MutableLiveData<NaverMovie>()
         Retrofit.api.get2(url, title)
             .enqueue(object : Callback<NaverResult> {
                 override fun onResponse(call: Call<NaverResult>, response: Response<NaverResult>) {
-                   response.body()?.items?.get(0).let { r -> result }
+                    val n : NaverMovie? = response.body()?.items?.get(0)
+                    result.value = response.body()?.items?.get(0)
                 }
 
                 override fun onFailure(call: Call<NaverResult>, t: Throwable) {
@@ -24,6 +28,7 @@ class MovieService {
                 }
 
             })
+        return result;
     }
 
     fun initializeMovieData(url: String, result: MutableList<Item>) {

@@ -90,10 +90,14 @@ fun LazyListScope.postContentItems(video_id:String, post: NaverMovie) {
         Spacer(Modifier.height(defaultSpacerSize))
         Text(post.title.replace("<b>","").replace("</b>", "") + ", " + post.pubDate, style = MaterialTheme.typography.headlineLarge)
         Spacer(Modifier.height(8.dp))
-        val directors = post.director.replace("|", ",").substring(0, post.director.length - 1)
-        Text(directors, style = MaterialTheme.typography.bodyMedium)
-        val actors = post.actor.replace("|", ",").substring(0, post.actor.length - 1)
-        Text(actors, style = MaterialTheme.typography.bodyMedium)
+        if (post.director != "") {
+            val directors = post.director.replace("|", ",").substring(0, post.director.length - 1)
+            Text(directors, style = MaterialTheme.typography.bodyMedium)
+        }
+        if (post.actor != "") {
+            val actors = post.actor.replace("|", ",").substring(0, post.actor.length - 1)
+            Text(actors, style = MaterialTheme.typography.bodyMedium)
+        }
         Spacer(Modifier.height(defaultSpacerSize))
     }
 //    item { PostMetadata(post.metadata, Modifier.padding(bottom = 24.dp)) }

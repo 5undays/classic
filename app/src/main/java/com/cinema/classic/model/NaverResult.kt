@@ -15,7 +15,7 @@ data class NaverMovie(
     val subtitle:String,
     val pubDate:String,
     val director:String,
-    val actor:String,
+    var actor:String,
     val userRating:String
 )
 
