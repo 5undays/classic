@@ -6,13 +6,6 @@ import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel : ViewModel() {
 
-    private val _text: MutableLiveData<String> = MutableLiveData()
-    val text: LiveData<String> get() = _text
-
-    fun updateText(t: String) {
-        _text.postValue(t)
-    }
-
     private val _data: MutableLiveData<NaverMovie> = MutableLiveData()
     val data: LiveData<NaverMovie> get() = _data
 

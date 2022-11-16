@@ -56,7 +56,6 @@ import androidx.compose.ui.unit.sp
 import com.cinema.classic.R
 import com.cinema.classic.YoutubePlayerView
 import com.cinema.classic.data.movie.impl.movie1
-import com.cinema.classic.model.Movie
 import com.cinema.classic.model.NaverMovie
 import com.cinema.classic.model.NaverResult
 import com.cinema.classic.ui.theme.ClassicTheme
