@@ -3,6 +3,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -15,6 +16,7 @@ android {
         targetSdkVersion(33)
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "GOOGLE_API_KEY", getApiKey("GOOGLE_API_KEY"))
         buildConfigField("String", "NAVER_CLIENT_KEY", getApiKey("NAVER_CLIENT_KEY"))
     }
@@ -63,6 +65,12 @@ dependencies {
 
     implementation("androidx.compose.runtime:runtime-livedata:1.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+
+    implementation("androidx.room:room-ktx:2.4.3")
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
+    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
 }
 
 fun getApiKey(propertyKey: String): String {

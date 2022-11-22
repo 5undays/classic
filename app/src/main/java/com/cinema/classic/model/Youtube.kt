@@ -50,7 +50,6 @@ data class PageInfo(
 )
 
 object YoutubeRepo {
-    //fun getPosts(): List<Post> = sample
     fun getFeaturedPost(): Item = sample
 }
 
