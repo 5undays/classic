@@ -53,6 +53,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cinema.classic.PagerView
 import com.cinema.classic.R
 import com.cinema.classic.YoutubePlayerView
 import com.cinema.classic.data.movie.impl.movie1
@@ -98,6 +99,7 @@ fun LazyListScope.postContentItems(video_id:String, post: NaverMovie) {
             Text(actors, style = MaterialTheme.typography.bodyMedium)
         }
         Spacer(Modifier.height(defaultSpacerSize))
+        PagerView()
     }
 //    item { PostMetadata(post.metadata, Modifier.padding(bottom = 24.dp)) }
 //    items(post.paragraphs) { Paragraph(paragraph = it) }

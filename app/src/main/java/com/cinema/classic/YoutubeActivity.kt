@@ -18,7 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cinema.classic.databinding.FragmentCollectionObjectBinding
+import com.cinema.classic.databinding.FragmentContainerViewpagerBinding
 import com.cinema.classic.databinding.FragmentContainerYoutubeBinding
+import com.cinema.classic.fragment.ViewpagerFragment
 import com.cinema.classic.fragment.YoutubeFragment
 import com.cinema.classic.model.MainActivityViewModel
 import com.cinema.classic.model.NaverMovie
@@ -84,6 +87,12 @@ fun YoutubePlayerView(video_id: String) {
     }
 }
 
+@Composable
+fun PagerView() {
+    AndroidViewBinding(FragmentContainerViewpagerBinding::inflate) {
+        val f = fragmentContainerViewpager.getFragment<ViewpagerFragment>()
+    }
+}
 
 @Preview("제목")
 @Composable

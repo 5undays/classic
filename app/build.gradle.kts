@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -45,6 +46,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.1")
     implementation("androidx.fragment:fragment-ktx:1.5.4")
     implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("com.google.android.material:material:1.7.0")
     debugImplementation("androidx.compose.ui:ui-tooling:1.3.1")
 
 
@@ -70,6 +72,9 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.7.1")
     kapt("androidx.room:room-compiler:2.4.3")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
 }
 
