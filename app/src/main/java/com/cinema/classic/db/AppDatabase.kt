@@ -15,7 +15,7 @@ import com.cinema.classic.works.SeedDatabaseWorker.Companion.KEY_FILENAME
 
 @Database(entities = [MovieClip::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun movieDao(): MovieClipDao
+    abstract fun movieClipDao(): MovieClipDao
 
     companion object {
 

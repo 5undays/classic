@@ -42,7 +42,7 @@ class SeedDatabaseWorker(
                         val plantList: List<MovieClip> = Gson().fromJson(jsonReader, plantType)
 
                         val database = AppDatabase.getInstance(applicationContext)
-                        database.movieDao().insertAll(plantList)
+                        //database.movieDao().insertAll(plantList)
 
                         Result.success()
                     }

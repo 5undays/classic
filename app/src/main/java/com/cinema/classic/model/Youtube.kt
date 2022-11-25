@@ -1,52 +1,54 @@
 package com.cinema.classic.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Youtube(
-    val kind: String,
-    val etag: String,
-    val nextPageToken: String,
-    val regionCode: String,
-    val pageInfo: PageInfo,
-    val items: List<Item>
+    @field:SerializedName("kind") val kind: String,
+    @field:SerializedName("etag") val etag: String,
+    @field:SerializedName("nextPageToken") val nextPageToken: String,
+    @field:SerializedName("regionCode") val regionCode: String,
+    @field:SerializedName("pageInfo") val pageInfo: PageInfo,
+    @field:SerializedName("items") val items: List<Item>
 )
 
 data class Item(
-    val kind: String,
-    val etag:String,
-    val id: Id,
-    val snippet:Snippet
+    @field:SerializedName("kind") val kind: String,
+    @field:SerializedName("etag") val etag:String,
+    @field:SerializedName("id") val id: Id,
+    @field:SerializedName("snippet") val snippet:Snippet
 )
 
 data class Snippet (
-    val publishedAt:String,
-    val channelId:String,
-    val title:String,
-    val description:String,
-    val thumbnails:Thumbnails,
-    val channelTitle:String,
-    val liveBroadcastContent:String,
-    val publishTime:String
+    @field:SerializedName("publishedAt") val publishedAt:String,
+    @field:SerializedName("channelId") val channelId:String,
+    @field:SerializedName("title") val title:String,
+    @field:SerializedName("description") val description:String,
+    @field:SerializedName("thumbnails") val thumbnails:Thumbnails,
+    @field:SerializedName("channelTitle") val channelTitle:String,
+    @field:SerializedName("liveBroadcastContent") val liveBroadcastContent:String,
+    @field:SerializedName("publishTime") val publishTime:String
 )
 
 data class Thumbnails (
-    val default:Thumbnail,
-    val medium:Thumbnail,
-    val high:Thumbnail
+    @field:SerializedName("default") val default:Thumbnail,
+    @field:SerializedName("medium") val medium:Thumbnail,
+    @field:SerializedName("high") val high:Thumbnail
 )
 
 data class Thumbnail(
-    val url:String,
-    val width:Int,
-    val height:Int
+    @field:SerializedName("url") val url:String,
+    @field:SerializedName("width") val width:Int,
+    @field:SerializedName("height") val height:Int
 )
 
 data class Id (
-    val kind:String,
-    val videoId:String
+    @field:SerializedName("kind") val kind:String,
+    @field:SerializedName("videoId") val videoId:String
 )
 
 data class PageInfo(
-    val totalResult: Int,
-    val resultsPerPage: Int
+    @field:SerializedName("totalResult") val totalResult: Int,
+    @field:SerializedName("resultsPerPage") val resultsPerPage: Int
 )
 
 object YoutubeRepo {

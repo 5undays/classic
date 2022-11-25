@@ -48,7 +48,8 @@ class YoutubeActivity : FragmentActivity() {
 
 
 @Composable
-fun movieData(title: String, video_id: String, viewModel: MainActivityViewModel = viewModel()) {
+fun movieData(title: String, video_id: String
+              , viewModel: MainActivityViewModel = viewModel()) {
     val data1 by viewModel.data.observeAsState(
         NaverMovie(
             title = "",
@@ -76,7 +77,7 @@ fun movieData(title: String, video_id: String, viewModel: MainActivityViewModel 
             }
 
         })
-    ArticleScreen(video_id, data1, {}, title, true, {}, false, {})
+    //ArticleScreen(video_id, data1, {}, title, true, {}, false, {})
 }
 
 @Composable

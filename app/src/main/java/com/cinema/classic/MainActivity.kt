@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,7 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,32 +26,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.cinema.classic.data.movie.impl.MovieService
 import com.cinema.classic.model.Item
 import com.cinema.classic.model.YoutubeRepo
 import com.cinema.classic.ui.theme.ClassicTheme
+import com.cinema.classic.viewmodels.MovieViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewmodel: MovieViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Home(stringResource(R.string.google_api_url))
+            Home(viewmodel)
         }
     }
 }
-//
-//@Override
-//fun onPause() {
-//    onPause().un
-//    unregisterReceiver
-//}
+
 
 @Composable
-fun Home(url: String) {
-    //val posts = remember { (MovieService().get(url) as com.cinema.classic.data.Result.Success).data }
-    val posts = remember { mutableStateListOf<Item>() }
-    MovieService().initializeMovieData(url, posts)
-
+fun Home(viewModel: MovieViewModel) {
+    var posts = viewModel.data.observeAsState()
     ClassicTheme {
         Scaffold(
             topBar = { AppBar() }
@@ -62,8 +59,10 @@ fun Home(url: String) {
                 item {
                     Header(stringResource(R.string.korean_film))
                 }
-                items(posts) { post ->
-                    PostItem(post = post)
+                posts.value?.let {
+                    items(posts.value!!) { post ->
+                        PostItem(post = post)
+                    }
                 }
             }
         }

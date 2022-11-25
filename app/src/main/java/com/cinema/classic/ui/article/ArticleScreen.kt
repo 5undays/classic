@@ -41,7 +41,7 @@ import kotlinx.coroutines.runBlocking
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun     ArticleScreen(
+fun  ArticleScreen(
     video_id:String,
     post: NaverMovie,
     onPostChange: (NaverMovie) -> Unit,
