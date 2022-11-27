@@ -11,6 +11,10 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBarListener
+
+
+
 
 
 class YoutubeFragment : Fragment() {
@@ -33,7 +37,8 @@ class YoutubeFragment : Fragment() {
     fun initialVideo(video_id: String) {
         val listener: YouTubePlayerListener = object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                val defaultPlayerUiController = DefaultPlayerUiController(binding.youtubePlayerView, youTubePlayer)
+                val defaultPlayerUiController =
+                    DefaultPlayerUiController(binding.youtubePlayerView, youTubePlayer)
                 binding.youtubePlayerView.setCustomPlayerUi(defaultPlayerUiController.rootView);
                 youTubePlayer.loadVideo(video_id, 0f)
             }

@@ -19,7 +19,7 @@ interface MovieService {
         "X-Naver-Client-Secret: Y19lKc_Nv9"
     )
     @GET
-    open fun get2(@Url url: String, @Query("query") post: String?): Call<NaverResult>
+    suspend fun get2(@Url url: String, @Query("query") title: String?): Response<NaverResult>
 
     @GET
     suspend fun get(

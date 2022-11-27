@@ -12,4 +12,11 @@
         android:layout_height="wrap_content"
         app:enableAutomaticInitialization="false" />
 
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBar
+        android:id="@+id/youtube_player_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:fontSize="12sp"
+        app:color="@color/red700" />
+
 </LinearLayout>

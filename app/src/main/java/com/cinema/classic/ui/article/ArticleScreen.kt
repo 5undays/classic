@@ -29,23 +29,12 @@ import com.cinema.classic.ui.utils.FavoriteButton
 import com.cinema.classic.ui.utils.ShareButton
 import kotlinx.coroutines.runBlocking
 
-/**
- * Stateless Article Screen that displays a single post adapting the UI to different screen sizes.
- *
- * @param post (state) item to display
- * @param showNavigationIcon (state) if the navigation icon should be shown
- * @param onBack (event) request navigate back
- * @param isFavorite (state) is this item currently a favorite
- * @param onToggleFavorite (event) request that this post toggle it's favorite state
- * @param lazyListState (state) the [LazyListState] for the article content
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun  ArticleScreen(
+fun ArticleScreen(
     video_id:String,
     post: NaverMovie,
     onPostChange: (NaverMovie) -> Unit,
-    title: String,
     isExpandedScreen: Boolean,
     onBack: () -> Unit,
     isFavorite: Boolean,
@@ -110,28 +99,23 @@ private fun ArticleScreenContent(
     bottomBarContent: @Composable () -> Unit = { },
     lazyListState: LazyListState = rememberLazyListState()
 ) {
-    val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = movie.director.orEmpty(),
-                navigationIconContent = navigationIconContent,
-                scrollBehavior = scrollBehavior
-            )
-        },
-        bottomBar = bottomBarContent
-    ) { innerPadding ->
-            PostContent(
-                video_id = video_id,
-                post = movie,
-                modifier = Modifier
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    // innerPadding takes into account the top and bottom bar
-                    .padding(innerPadding),
-                state = lazyListState,
-            )
-    }
+//    val topAppBarState = rememberTopAppBarState()
+//    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
+//    Scaffold(
+//        topBar = {
+//            TopAppBar(
+//                title = movie.director.orEmpty(),
+//                navigationIconContent = navigationIconContent,
+//                scrollBehavior = scrollBehavior
+//            )
+//        },
+//        bottomBar = bottomBarContent
+//    ) { innerPadding ->
+//            PostContent(
+//                video_id = video_id,
+//                post = movie
+//            )
+//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -145,13 +129,6 @@ private fun TopAppBar(
     CenterAlignedTopAppBar(
         title = {
             Row {
-//                Image(
-//                    painter = painterResource(id = R.drawable.icon_article_background),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .clip(CircleShape)
-//                        .size(36.dp)
-//                )
                 Text(
                     text = stringResource(R.string.app_name, title),
                     style = MaterialTheme.typography.labelLarge,
@@ -206,35 +183,4 @@ fun sharePost(post: NaverMovie, context: Context) {
             context.getString(R.string.article_share_post)
         )
     )
-}
-
-@Preview("Article screen")
-@Preview("Article screen (dark)", uiMode = UI_MODE_NIGHT_YES)
-@Preview("Article screen (big font)", fontScale = 1.5f)
-@Composable
-fun PreviewArticleDrawer() {
-    ClassicTheme {
-        val post = runBlocking {
-            movie1.items[0]
-            //(BlockingFakePostsRepository().getPost(post3.id) as Result.Success).data
-        }
-        ArticleScreen("test",post, {},"",false, {}, false, {})
-    }
-}
-
-@Preview("Article screen navrail", device = Devices.PIXEL_C)
-@Preview(
-    "Article screen navrail (dark)",
-    uiMode = UI_MODE_NIGHT_YES,
-    device = Devices.PIXEL_C
-)
-@Preview("Article screen navrail (big font)", fontScale = 1.5f, device = Devices.PIXEL_C)
-@Composable
-fun PreviewArticleNavRail() {
-    ClassicTheme {
-        val post = runBlocking {
-            movie1.items[0]
-        }
-        ArticleScreen("test", post, {},"",true, {}, false, {})
-    }
 }

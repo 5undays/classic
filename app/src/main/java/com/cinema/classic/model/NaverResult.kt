@@ -1,21 +1,23 @@
 package com.cinema.classic.model
 
+import com.google.gson.annotations.SerializedName
+
 data class NaverResult(
-    val lastBuildDate: String,
-    val total: Int,
-    val start: Int,
-    val display: Int,
-    val items: List<NaverMovie>
+    @field:SerializedName("lastBuildDate")  val lastBuildDate: String,
+    @field:SerializedName("total") val total: Int,
+    @field:SerializedName("start") val start: Int,
+    @field:SerializedName("display")  val display: Int,
+    @field:SerializedName("items")  val items: List<NaverMovie>
 )
 
 data class NaverMovie(
-    var title:String,
-    val link:String,
-    val image:String,
-    val subtitle:String,
-    val pubDate:String,
-    val director:String,
-    var actor:String,
-    val userRating:String
+    @field:SerializedName("title")  var title:String,
+    @field:SerializedName("link")  val link:String,
+    @field:SerializedName("image")  val image:String,
+    @field:SerializedName("subtitle")  val subtitle:String,
+    @field:SerializedName("pubDate")  val pubDate:String,
+    @field:SerializedName("director") val director:String,
+    @field:SerializedName("actor")  var actor:String,
+    @field:SerializedName("userRating")  val userRating:String
 )
 
