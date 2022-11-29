@@ -11,11 +11,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val repository: MovieRepository
 ) : ViewModel() {
     private val _data: MutableLiveData<List<Item>> = MutableLiveData<List<Item>>();
-    val data: LiveData<List<Item>> get() = _data
+    val uploadList: LiveData<List<Item>> get() = _data
 
     init {
         viewModelScope.launch {

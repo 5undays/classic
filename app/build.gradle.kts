@@ -49,7 +49,6 @@ dependencies {
     implementation("com.google.android.material:material:1.7.0")
     debugImplementation("androidx.compose.ui:ui-tooling:1.3.1")
 
-
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.code.gson:gson:2.10")
@@ -75,7 +74,9 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
-
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0-alpha03")
+    implementation("com.google.accompanist:accompanist-pager:0.27.1")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.27.1")
 }
 
 fun getApiKey(propertyKey: String): String {

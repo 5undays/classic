@@ -8,8 +8,8 @@ import javax.inject.Singleton
 @Singleton
 class MovieClipRepository @Inject constructor(
     private val movieClipDao: MovieClipDao
-){
-    fun getAll() = movieClipDao.getAll()
+) {
+    suspend fun get(videoId: String) = movieClipDao.get(videoId)
 
     suspend fun delete(movieClip: MovieClip) {
         movieClipDao.delete(movieClip)
@@ -20,7 +20,8 @@ class MovieClipRepository @Inject constructor(
     }
 
     companion object {
-        @Volatile private var instance: MovieClipRepository? = null
+        @Volatile
+        private var instance: MovieClipRepository? = null
 
         fun getInstance(movieClipDao: MovieClipDao) =
             instance ?: synchronized(this) {

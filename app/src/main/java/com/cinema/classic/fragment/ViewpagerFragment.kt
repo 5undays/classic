@@ -26,7 +26,11 @@ class ViewpagerFragment : Fragment() {
         demoCollectionAdapter = ViewpagerAdapter(this)
         binding.pager.adapter = demoCollectionAdapter
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
-            tab.text = "OBJECT ${(position + 1)}"
+            if (position == 0) {
+                tab.text = "PLOT"
+            } else {
+                tab.text = "BOOKMARK"
+            }
         }.attach()
     }
 }

@@ -1,6 +1,7 @@
 package com.cinema.classic.api
 
 import com.cinema.classic.BuildConfig
+import com.cinema.classic.model.KmdbResult
 import com.cinema.classic.model.NaverResult
 import com.cinema.classic.model.Youtube
 import okhttp3.OkHttpClient
@@ -14,6 +15,14 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface MovieService {
+    @GET
+    suspend fun get3(
+        @Url url: String,
+        @Query("title") title: String,
+        @Query("ServiceKey") serviceKey: String = "",
+        @Query("collection") collection: String = "kmdb_new2"
+    ): Response<KmdbResult>
+
     @Headers(
         "X-Naver-Client-Id: " + BuildConfig.NAVER_CLIENT_KEY,
         "X-Naver-Client-Secret: Y19lKc_Nv9"
