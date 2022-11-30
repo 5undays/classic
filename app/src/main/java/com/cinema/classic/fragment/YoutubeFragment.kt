@@ -42,13 +42,13 @@ class YoutubeFragment : Fragment() {
         return binding.root
     }
 
-    fun initialVideo(video_id: String) {
+    fun initialVideo(video_id: String, start_second:Float) {
         val listener: YouTubePlayerListener = object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 val defaultPlayerUiController =
                     DefaultPlayerUiController(binding.youtubePlayerView, youTubePlayer)
                 binding.youtubePlayerView.setCustomPlayerUi(defaultPlayerUiController.rootView);
-                youTubePlayer.loadVideo(video_id, 0f)
+                youTubePlayer.loadVideo(video_id, start_second)
             }
 
             override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
@@ -67,10 +67,6 @@ class YoutubeFragment : Fragment() {
         super.onStop()
     }
     override fun onDestroy() {
-        //searchJob?.cancel()
-//        lifecycleScope.launch {
-//            viewModel.insertMovieClip(movieClip = movieClip)
-//        }
         super.onDestroy()
         binding.youtubePlayerView.release()
     }

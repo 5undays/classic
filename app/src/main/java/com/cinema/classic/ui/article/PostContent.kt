@@ -1,63 +1,49 @@
 package com.cinema.classic.ui.article
 
-import android.content.Intent
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
-import coil.compose.AsyncImage
-import com.cinema.classic.YoutubeActivity
 import com.cinema.classic.data.interest.MovieClip
-import com.cinema.classic.data.movie.impl.movie1
-import com.cinema.classic.databinding.FragmentContainerViewpagerBinding
 import com.cinema.classic.databinding.FragmentContainerYoutubeBinding
-import com.cinema.classic.fragment.ViewpagerFragment
 import com.cinema.classic.fragment.YoutubeFragment
-import com.cinema.classic.model.Item
-import com.cinema.classic.model.NaverMovie
 import com.cinema.classic.ui.theme.ClassicTheme
 import com.cinema.classic.ui.theme.ClassicTheme2
+import com.cinema.classic.ui.utils.BookmarkButton
 import com.cinema.classic.viewmodels.VideoViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import java.util.*
 
 private val defaultSpacerSize = 16.dp
 
 @Composable
 fun movieData(video_id: String, viewModel: VideoViewModel) {
     val data1 by viewModel.data.observeAsState()
+    val data2 by viewModel.movieClipList.observeAsState()
+
     data1?.let {
         LazyColumn {
-            //postContentItems(video_id, it)
             item {
-                if (LocalInspectionMode.current) {
-
-                } else {
-                    YoutubePlayerView(video_id)
+                if (!LocalInspectionMode.current) {
+                    data2?.get(0)?.time?.let { it1 -> YoutubePlayerView(video_id, it1) }
                 }
                 Spacer(Modifier.height(defaultSpacerSize))
                 Text(
@@ -66,7 +52,8 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
                 )
                 Spacer(Modifier.height(8.dp))
                 if (it.director != "") {
-                    val directors = it.director.replace("|", ",").substring(0, it.director.length - 1)
+                    val directors =
+                        it.director.replace("|", ",").substring(0, it.director.length - 1)
                     Text(directors, style = MaterialTheme.typography.body1)
                 }
                 if (it.actor != "") {
@@ -81,29 +68,11 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
     }
 }
 
-var currentSecond = 0f
-
 @Composable
-fun YoutubePlayerView(video_id: String) {
+fun YoutubePlayerView(video_id: String, time: Float = 0f) {
     AndroidViewBinding(FragmentContainerYoutubeBinding::inflate) {
         val f = fragmentContainerView.getFragment<YoutubeFragment>()
-        f.initialVideo(video_id)
-        //currentSecond = f.currentSecond
-    }
-}
-
-@Composable
-fun PagerView() {
-    AndroidViewBinding(FragmentContainerViewpagerBinding::inflate) {
-        val f = fragmentContainerViewpager.getFragment<ViewpagerFragment>()
-    }
-}
-
-@Preview("제목")
-@Composable
-fun prevGetMovieData() {
-    ClassicTheme2 {
-        //getMovieData(title = "골목안 풍경 (1962) \n What Happens in a Alley")
+        f.initialVideo(video_id, time)
     }
 }
 
@@ -150,7 +119,11 @@ private fun tabLayout(viewModel: VideoViewModel) {
                 LazyColumn(modifier = Modifier.height(300.dp)) {
                     list.value?.let {
                         items(list.value!!) { post ->
-                            PostItem(post = post)
+                            PostItem(post = post, onToggleFavorite = {
+                                coroutineScope.launch {
+                                    viewModel.removeMovieClip(post)
+                                }
+                            })
                         }
                     }
                 }
@@ -162,21 +135,25 @@ private fun tabLayout(viewModel: VideoViewModel) {
 @Composable
 fun PostItem(
     post: MovieClip,
+    onToggleFavorite: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val ctx = LocalContext.current
-
     Card(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .height(150.dp)
     ) {
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-            modifier = modifier.padding(vertical = 8.dp, horizontal = 8.dp)
+        Row(
+            modifier = modifier
+                .padding(vertical = 8.dp, horizontal = 8.dp)
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            //Text(text = post.time)
-            Text(text = post.video_id, color = Color.White)
+            Text(text = post.time.toString(), color = Color.Black)
+            Text(text = post.reg_date.timeInMillis.toString(), color = Color.Black)
+            BookmarkButton(onClick = onToggleFavorite)
         }
     }
 }
@@ -187,7 +164,7 @@ fun PostItem(
 fun PreviewPost() {
     ClassicTheme {
         Surface {
-            //PostContent("mIHr96I8mbk", post = movie1.items[0])
+            PostItem(post = MovieClip("2j7uys48wwc", 1.2222f, Calendar.getInstance()),{})
         }
     }
 }

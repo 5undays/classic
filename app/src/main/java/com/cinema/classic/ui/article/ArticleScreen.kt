@@ -71,7 +71,7 @@ fun ArticleScreen(
                     BottomAppBar(
                         actions = {
                             FavoriteButton(onClick = { showUnimplementedActionDialog = true })
-                            BookmarkButton(isBookmarked = isFavorite, onClick = onToggleFavorite)
+                            BookmarkButton(onClick = onToggleFavorite)
                             ShareButton(onClick = { sharePost(post, context)  })
                             //TextSettingsButton(onClick = { showUnimplementedActionDialog = true })
                         }

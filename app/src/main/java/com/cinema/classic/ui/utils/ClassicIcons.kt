@@ -28,15 +28,17 @@ fun FavoriteButton(onClick: () -> Unit) {
 
 @Composable
 fun BookmarkButton(
-    isBookmarked: Boolean,
+    //isBookmarked: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val clickLabel = stringResource(
-        if (isBookmarked) R.string.unbookmark else R.string.bookmark
-    )
+    val clickLabel = stringResource(R.string.bookmark)
+//    val clickLabel = stringResource(
+//        if (isBookmarked) R.string.unbookmark else R.string.bookmark
+//    )
     IconToggleButton(
-        checked = isBookmarked,
+        //checked = isBookmarked,
+        checked = true,
         onCheckedChange = { onClick() },
         modifier = modifier.semantics {
             // Use a custom click label that accessibility services can communicate to the user.
@@ -45,7 +47,8 @@ fun BookmarkButton(
         }
     ) {
         Icon(
-            imageVector = if (isBookmarked) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
+//            imageVector = if (isBookmarked) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
+            imageVector = Icons.Filled.Bookmark,
             contentDescription = null // handled by click label of parent
         )
     }

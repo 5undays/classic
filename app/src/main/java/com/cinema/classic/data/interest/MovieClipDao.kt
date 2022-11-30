@@ -15,5 +15,5 @@ interface MovieClipDao {
     fun insert(movieClip: MovieClip)
 
     @Delete
-    fun delete(movieClip: MovieClip)
+    suspend fun delete(movieClip: MovieClip)
 }

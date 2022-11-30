@@ -14,8 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VideoViewModel @Inject constructor(
-    private val repository: MovieRepository
-    ,private val movieClipRepository: MovieClipRepository
+    private val repository: MovieRepository, private val movieClipRepository: MovieClipRepository
 ) : ViewModel() {
 
     private val _data: MutableLiveData<NaverMovie> = MutableLiveData()
@@ -37,11 +36,15 @@ class VideoViewModel @Inject constructor(
         }
     }
 
-    suspend fun getMovieClips(videoId:String){
+    suspend fun getMovieClips(videoId: String) {
         movieClips.value = movieClipRepository.get(videoId)
     }
 
     suspend fun insertMovieClip(movieClip: MovieClip) {
         movieClipRepository.insert(movieClip)
+    }
+
+    suspend fun removeMovieClip(movieClip: MovieClip) {
+        movieClipRepository.delete(movieClip)
     }
 }
