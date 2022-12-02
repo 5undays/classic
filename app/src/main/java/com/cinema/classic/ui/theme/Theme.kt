@@ -15,6 +15,7 @@
  */
 package com.cinema.classic.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -31,6 +32,18 @@ private val LightColors = lightColors(
     onSecondary = Color.White,
     error = Red800
 )
+
+@SuppressLint("ConflictingOnColor")
+private val LightColors2 = lightColors(
+    primary = Color.Transparent,
+    primaryVariant = Color.Transparent,
+    onPrimary = Red800,
+    secondary = Color.Transparent,
+    secondaryVariant = Color.Transparent,
+    onSecondary = Color.Transparent,
+    error = Color.Transparent
+)
+
 
 private val DarkColors = darkColors(
     primary = Red300,
@@ -60,7 +73,7 @@ fun ClassicTheme2(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colors = if (darkTheme) DarkColors else LightColors,
+        colors = if (darkTheme) DarkColors else LightColors2,
         typography = JetnewsTypography,
         content = content
     )

@@ -17,6 +17,8 @@ class MainViewModel @Inject constructor(
     private val _data: MutableLiveData<List<Item>> = MutableLiveData<List<Item>>();
     val uploadList: LiveData<List<Item>> get() = _data
 
+    //suspend fun getLastVideo() = movieClipDao.getLastVideo()
+
     init {
         viewModelScope.launch {
             val response = repository.load();

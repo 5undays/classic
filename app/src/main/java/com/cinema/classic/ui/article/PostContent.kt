@@ -30,6 +30,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 private val defaultSpacerSize = 16.dp
@@ -38,31 +39,36 @@ private val defaultSpacerSize = 16.dp
 fun movieData(video_id: String, viewModel: VideoViewModel) {
     val data1 by viewModel.data.observeAsState()
     val data2 by viewModel.movieClipList.observeAsState()
-
-    data1?.let {
-        LazyColumn {
-            item {
-                if (!LocalInspectionMode.current) {
-                    data2?.get(0)?.time?.let { it1 -> YoutubePlayerView(video_id, it1) }
+    ClassicTheme2 {
+        data1?.let {
+            LazyColumn {
+                item {
+                    if (!LocalInspectionMode.current) {
+                        if (data2?.size == 0) {
+                            YoutubePlayerView(video_id, 0f)
+                        } else {
+                            YoutubePlayerView(video_id, data2?.get(0)?.time!!)
+                        }
+                    }
+                    Spacer(Modifier.height(defaultSpacerSize))
+                    Text(
+                        it.title.replace("<b>", "").replace("</b>", "") + ", " + it.pubDate,
+                        style = MaterialTheme.typography.h4,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    if (it.director != "") {
+                        val directors =
+                            it.director.replace("|", ",").substring(0, it.director.length - 1)
+                        Text(directors, style = MaterialTheme.typography.body1, modifier = Modifier.padding(10.dp))
+                    }
+                    if (it.actor != "") {
+                        val actors = it.actor.replace("|", ",").substring(0, it.actor.length - 1)
+                        Text(actors, style = MaterialTheme.typography.body2, modifier = Modifier.padding(10.dp))
+                    }
+                    Spacer(Modifier.height(defaultSpacerSize))
+                    tabLayout(viewModel)
                 }
-                Spacer(Modifier.height(defaultSpacerSize))
-                Text(
-                    it.title.replace("<b>", "").replace("</b>", "") + ", " + it.pubDate,
-                    style = MaterialTheme.typography.h4
-                )
-                Spacer(Modifier.height(8.dp))
-                if (it.director != "") {
-                    val directors =
-                        it.director.replace("|", ",").substring(0, it.director.length - 1)
-                    Text(directors, style = MaterialTheme.typography.body1)
-                }
-                if (it.actor != "") {
-                    val actors = it.actor.replace("|", ",").substring(0, it.actor.length - 1)
-                    Text(actors, style = MaterialTheme.typography.body2)
-                }
-                Spacer(Modifier.height(defaultSpacerSize))
-                //PagerView()
-                tabLayout(viewModel)
             }
         }
     }
@@ -151,8 +157,13 @@ fun PostItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Text(text = post.time.toString(), color = Color.Black)
-            Text(text = post.reg_date.timeInMillis.toString(), color = Color.Black)
+            Text(text = SimpleDateFormat("hh:mm:ss").format(post.time * 1000), color = Color.Black)
+            Text(
+                text = SimpleDateFormat(
+                    "yyyy-MM-dd",
+                    Locale.getDefault()
+                ).format(post.reg_date.timeInMillis), color = Color.Black
+            )
             BookmarkButton(onClick = onToggleFavorite)
         }
     }
@@ -164,7 +175,7 @@ fun PostItem(
 fun PreviewPost() {
     ClassicTheme {
         Surface {
-            PostItem(post = MovieClip("2j7uys48wwc", 1.2222f, Calendar.getInstance()),{})
+            PostItem(post = MovieClip("2j7uys48wwc", 2266.77F, Calendar.getInstance()), {})
         }
     }
 }

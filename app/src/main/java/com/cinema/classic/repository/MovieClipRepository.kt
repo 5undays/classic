@@ -19,6 +19,8 @@ class MovieClipRepository @Inject constructor(
         movieClipDao.insert(movieClip)
     }
 
+
+
     companion object {
         @Volatile
         private var instance: MovieClipRepository? = null

@@ -10,6 +10,8 @@ import com.cinema.classic.repository.MovieClipRepository
 import com.cinema.classic.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,4 +49,9 @@ class VideoViewModel @Inject constructor(
     suspend fun removeMovieClip(movieClip: MovieClip) {
         movieClipRepository.delete(movieClip)
     }
+
+    suspend fun getLastVideo() {
+        //movieClipRepository.getLastVideo()
+    }
+
 }

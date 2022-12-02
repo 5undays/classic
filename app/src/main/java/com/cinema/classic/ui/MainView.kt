@@ -32,6 +32,7 @@ import com.cinema.classic.viewmodels.MainViewModel
 @Composable
 fun Home(viewModel: MainViewModel) {
     var list = viewModel.uploadList.observeAsState()
+
     ClassicTheme {
         Scaffold(
             topBar = { AppBar() }
