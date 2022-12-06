@@ -33,6 +33,7 @@ class YoutubeActivity : FragmentActivity() {
         searchJob = lifecycleScope.launch {
             viewModel.getMovieDetail(title)
             viewModel.getMovieClips(videoId)
+            viewModel.getMoviePlot(title)
         }
     }
 }

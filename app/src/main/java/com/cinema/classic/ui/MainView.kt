@@ -123,7 +123,9 @@ fun PostItem(
             modifier = modifier.padding(vertical = 8.dp, horizontal = 8.dp)
         ) {
             Text(text = title[0], fontWeight = FontWeight.ExtraBold, color = Color.White)
-            Text(text = title[1], color = Color.White)
+            if (title.size > 1) {
+                Text(text = title[1], color = Color.White)
+            }
         }
     }
 }

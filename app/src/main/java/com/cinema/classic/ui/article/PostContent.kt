@@ -1,5 +1,6 @@
 package com.cinema.classic.ui.article
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,10 +9,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +43,7 @@ private val defaultSpacerSize = 16.dp
 fun movieData(video_id: String, viewModel: VideoViewModel) {
     val data1 by viewModel.data.observeAsState()
     val data2 by viewModel.movieClipList.observeAsState()
+
     ClassicTheme2 {
         data1?.let {
             LazyColumn {
@@ -60,11 +65,19 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
                     if (it.director != "") {
                         val directors =
                             it.director.replace("|", ",").substring(0, it.director.length - 1)
-                        Text(directors, style = MaterialTheme.typography.body1, modifier = Modifier.padding(10.dp))
+                        Text(
+                            directors,
+                            style = MaterialTheme.typography.body1,
+                            modifier = Modifier.padding(10.dp)
+                        )
                     }
                     if (it.actor != "") {
                         val actors = it.actor.replace("|", ",").substring(0, it.actor.length - 1)
-                        Text(actors, style = MaterialTheme.typography.body2, modifier = Modifier.padding(10.dp))
+                        Text(
+                            actors,
+                            style = MaterialTheme.typography.body2,
+                            modifier = Modifier.padding(10.dp)
+                        )
                     }
                     Spacer(Modifier.height(defaultSpacerSize))
                     tabLayout(viewModel)
@@ -88,6 +101,8 @@ val pages = listOf("PLOT", "BOOKMARK")
 @Composable
 private fun tabLayout(viewModel: VideoViewModel) {
     var list = viewModel.movieClipList.observeAsState()
+    val plot by viewModel.plotData.observeAsState()
+
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
         val pagerState = rememberPagerState()
         val coroutineScope = rememberCoroutineScope()
@@ -106,23 +121,26 @@ private fun tabLayout(viewModel: VideoViewModel) {
                     selected = pagerState.currentPage == index,
                     onClick = {
                         coroutineScope.launch {
-                            //pagerState.scrollToPage(index)
+                            pagerState.scrollToPage(index)
                         }
                     },
+                    modifier = Modifier.fillMaxHeight()
                 )
             }
-
         }
-        HorizontalPager(count = pages.size, state = pagerState) { page ->
+        HorizontalPager(count = pages.size
+            , state = pagerState /* TO DO height programmcally*/
+            , modifier = Modifier.height(300.dp)) { page ->
             if (page == 0) {
-                Text(
-                    modifier = Modifier.wrapContentSize(),
-                    text = "tttt",
-                    textAlign = TextAlign.Center,
-                    fontSize = 30.sp
-                )
+                plot?.plotText?.let {
+                    Text(
+                        modifier = Modifier.fillMaxHeight(),
+                        text = it,
+                        style = MaterialTheme.typography.body2
+                    )
+                }
             } else {
-                LazyColumn(modifier = Modifier.height(300.dp)) {
+                LazyColumn(modifier = Modifier.fillMaxHeight()) {
                     list.value?.let {
                         items(list.value!!) { post ->
                             PostItem(post = post, onToggleFavorite = {
@@ -138,6 +156,7 @@ private fun tabLayout(viewModel: VideoViewModel) {
     }
 }
 
+@SuppressLint("SimpleDateFormat")
 @Composable
 fun PostItem(
     post: MovieClip,
@@ -147,22 +166,28 @@ fun PostItem(
     Card(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
-            .height(150.dp)
+            .height(60.dp)
     ) {
         Row(
             modifier = modifier
                 .padding(vertical = 8.dp, horizontal = 8.dp)
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Text(text = SimpleDateFormat("hh:mm:ss").format(post.time * 1000), color = Color.Black)
+            Text(
+                text = SimpleDateFormat("hh:mm:ss").format(post.time * 1000),
+                color = Color.Black,
+                modifier = Modifier.weight(0.5f)
+            )
             Text(
                 text = SimpleDateFormat(
                     "yyyy-MM-dd",
                     Locale.getDefault()
-                ).format(post.reg_date.timeInMillis), color = Color.Black
+                ).format(post.reg_date.timeInMillis),
+                color = Color.Black,
+                modifier = Modifier.wrapContentSize()
             )
             BookmarkButton(onClick = onToggleFavorite)
         }

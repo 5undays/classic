@@ -20,6 +20,6 @@ class MovieRepository @Inject constructor(
 
     suspend fun get2(title: String): Response<KmdbResult> {
         return service.get3(
-            "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp",title)
+            "https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp",title)
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cinema.classic.data.interest.MovieClip
 import com.cinema.classic.model.NaverMovie
+import com.cinema.classic.model.Plot
 import com.cinema.classic.repository.MovieClipRepository
 import com.cinema.classic.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,9 @@ class VideoViewModel @Inject constructor(
     private val movieClips: MutableLiveData<List<MovieClip>> = MutableLiveData()
     val movieClipList: LiveData<List<MovieClip>> get() = movieClips
 
+    private val _plotData: MutableLiveData<Plot> = MutableLiveData()
+    val plotData: LiveData<Plot> get() = _plotData
+
     suspend fun getMovieDetail(title: String) = viewModelScope.launch {
         val response = repository.get(title)
         if (response.isSuccessful) {
@@ -31,10 +35,10 @@ class VideoViewModel @Inject constructor(
         }
     }
 
-    suspend fun getMovieDetail2(title: String) = viewModelScope.launch {
+    suspend fun getMoviePlot(title: String) = viewModelScope.launch {
         val response = repository.get2(title)
         if (response.isSuccessful) {
-            //_data.value = response.body()
+            _plotData.value = response.body()?.Data?.get(0)?.Result?.get(0)?.plots?.plot?.get(0)
         }
     }
 

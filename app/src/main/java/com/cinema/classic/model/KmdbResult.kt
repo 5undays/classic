@@ -4,14 +4,14 @@ data class KmdbResult(
     val Query: String,
     val KMAQuery: String,
     val TotalCount: Int,
-    val Data: Data
+    val Data: List<Data>
 )
 
 data class Data(
-    val ColName: String,
+    val CollName: String,
     val TotalCount: Int,
     val Count: Int,
-    val Result: Result
+    val Result: List<Result>
 )
 
 data class Result(
@@ -23,11 +23,11 @@ data class Result(
     val titleOrg: String,
     val titleEtc: String,
     val prodYear: String,
-    val directors: List<Directors>,
-    val actors: List<Actor>,
+    val directors: Directors,
+    val actors: Actors,
     val nation: String,
     val company: String,
-    val plots: List<Plots>,
+    val plots: Plots,
     val runtime: String,
     val rating: String,
     val genre: String,
@@ -64,9 +64,17 @@ data class Result(
 )
 
 data class Directors(
+    val director: List<Director>
+)
+
+data class Director(
     val directorNm: String,
     val directorEnNm: String,
     val directorId: String
+)
+
+data class Actors(
+    val Actor: List<Actor>
 )
 
 data class Actor(
