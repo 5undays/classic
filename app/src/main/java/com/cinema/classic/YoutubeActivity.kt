@@ -21,17 +21,18 @@ class YoutubeActivity : FragmentActivity() {
         setContent {
             val video_id = intent.getStringExtra("video_id")
             val title = intent.getStringExtra("title")?.split("/")
-            if (video_id != null && title != null) {
+            val kor = title?.get(0)?.split("(")
+            if (video_id != null && kor != null) {
                 movieData(video_id, viewModel)
-                search(title.get(0).split("(").get(0), video_id)
+                search(kor.get(0), video_id, Integer.parseInt(kor.get(1).replace(")", "").trim()))
             }
         }
     }
 
-    private fun search(title: String,videoId: String) {
+    private fun search(title: String, videoId: String, year: Int) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.getMovieDetail(title)
+            viewModel.getMovieDetail(title, year)
             viewModel.getMovieClips(videoId)
             viewModel.getMoviePlot(title)
         }

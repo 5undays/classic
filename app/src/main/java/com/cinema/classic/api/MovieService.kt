@@ -28,7 +28,12 @@ interface MovieService {
         "X-Naver-Client-Secret: Y19lKc_Nv9"
     )
     @GET
-    suspend fun get2(@Url url: String, @Query("query") title: String?): Response<NaverResult>
+    suspend fun get2(
+        @Url url: String,
+        @Query("query") title: String,
+        @Query("yearto") yearto: Int,
+        @Query("yearfrom") yearfrom: Int
+    ): Response<NaverResult>
 
     @GET
     suspend fun get(
@@ -36,6 +41,7 @@ interface MovieService {
         @Query("part") part: String = "snippet",
         @Query("channelId") channelId: String = "UCvH6u_Qzn5RQdz9W198umDw",
         @Query("order") order: String = "date",
+        @Query("safeSearch") safeSearch: String = "strict",
         @Query("key") key: String = BuildConfig.GOOGLE_API_KEY
     ): Response<Youtube>
 

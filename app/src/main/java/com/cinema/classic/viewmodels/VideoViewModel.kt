@@ -28,8 +28,8 @@ class VideoViewModel @Inject constructor(
     private val _plotData: MutableLiveData<Plot> = MutableLiveData()
     val plotData: LiveData<Plot> get() = _plotData
 
-    suspend fun getMovieDetail(title: String) = viewModelScope.launch {
-        val response = repository.get(title)
+    suspend fun getMovieDetail(title: String, year: Int) = viewModelScope.launch {
+        val response = repository.get(title, year)
         if (response.isSuccessful) {
             _data.value = response.body()?.items?.get(0)
         }

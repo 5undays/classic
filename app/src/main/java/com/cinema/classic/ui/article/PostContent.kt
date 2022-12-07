@@ -59,7 +59,7 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
                     Text(
                         it.title.replace("<b>", "").replace("</b>", "") + ", " + it.pubDate,
                         style = MaterialTheme.typography.h4,
-                        modifier = Modifier.padding(10.dp)
+                        modifier = Modifier.padding(start = 10.dp)
                     )
                     Spacer(Modifier.height(8.dp))
                     if (it.director != "") {
@@ -68,7 +68,7 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
                         Text(
                             directors,
                             style = MaterialTheme.typography.body1,
-                            modifier = Modifier.padding(10.dp)
+                            modifier = Modifier.padding(start = 10.dp)
                         )
                     }
                     if (it.actor != "") {
@@ -76,7 +76,7 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
                         Text(
                             actors,
                             style = MaterialTheme.typography.body2,
-                            modifier = Modifier.padding(10.dp)
+                            modifier = Modifier.padding(start = 10.dp)
                         )
                     }
                     Spacer(Modifier.height(defaultSpacerSize))
@@ -134,7 +134,7 @@ private fun tabLayout(viewModel: VideoViewModel) {
             if (page == 0) {
                 plot?.plotText?.let {
                     Text(
-                        modifier = Modifier.fillMaxHeight(),
+                        modifier = Modifier.fillMaxHeight().padding(10.dp),
                         text = it,
                         style = MaterialTheme.typography.body2
                     )
