@@ -9,18 +9,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.cinema.classic.data.interest.MovieClip
 import com.cinema.classic.databinding.FragmentContainerYoutubeBinding
@@ -36,6 +31,7 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 private val defaultSpacerSize = 16.dp
 
@@ -128,13 +124,17 @@ private fun tabLayout(viewModel: VideoViewModel) {
                 )
             }
         }
-        HorizontalPager(count = pages.size
-            , state = pagerState /* TO DO height programmcally*/
-            , modifier = Modifier.height(300.dp)) { page ->
+        HorizontalPager(
+            count = pages.size,
+            state = pagerState /* TO DO height programmcally*/,
+            modifier = Modifier.height(300.dp)
+        ) { page ->
             if (page == 0) {
                 plot?.plotText?.let {
                     Text(
-                        modifier = Modifier.fillMaxHeight().padding(10.dp),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(10.dp),
                         text = it,
                         style = MaterialTheme.typography.body2
                     )
@@ -163,6 +163,9 @@ fun PostItem(
     onToggleFavorite: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val sdf = SimpleDateFormat("HH:mm:ss")
+    sdf.timeZone = TimeZone.getTimeZone("UTC")
+
     Card(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
@@ -177,8 +180,7 @@ fun PostItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = SimpleDateFormat("hh:mm:ss").format(post.time * 1000),
-                color = Color.Black,
+                text = sdf.format(post.time * 1000),
                 modifier = Modifier.weight(0.5f)
             )
             Text(
