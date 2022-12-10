@@ -5,6 +5,8 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -102,6 +104,7 @@ private fun tabLayout(viewModel: VideoViewModel) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
         val pagerState = rememberPagerState()
         val coroutineScope = rememberCoroutineScope()
+        val scrollState = rememberScrollState()
 
         TabRow(
             selectedTabIndex = pagerState.currentPage,
@@ -130,14 +133,18 @@ private fun tabLayout(viewModel: VideoViewModel) {
             modifier = Modifier.height(300.dp)
         ) { page ->
             if (page == 0) {
-                plot?.plotText?.let {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(10.dp),
-                        text = it,
-                        style = MaterialTheme.typography.body2
-                    )
+                Column(modifier = Modifier
+                    .fillMaxHeight()
+                    .verticalScroll(scrollState)) {
+                    plot?.plotText?.let {
+                        Text(
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(10.dp),
+                            text = it,
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
                 }
             } else {
                 LazyColumn(modifier = Modifier.fillMaxHeight()) {
