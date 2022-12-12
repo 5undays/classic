@@ -64,7 +64,7 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
                 Column(modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth()) {
-                    tabLayout(viewModel = viewModel)
+                    tabLayout(viewModel = viewModel, videoId = video_id)
                 }
             }
         }
@@ -112,7 +112,7 @@ val pages = listOf("PLOT", "BOOKMARK")
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun tabLayout(viewModel: VideoViewModel) {
+private fun tabLayout(viewModel: VideoViewModel, videoId: String) {
     var list = viewModel.movieClipList.observeAsState()
     val plot by viewModel.plotData.observeAsState()
 
@@ -176,8 +176,6 @@ private fun tabLayout(viewModel: VideoViewModel) {
             }
         }
     }
-
-
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -234,19 +232,20 @@ fun PreviewPost() {
 @Preview
 @Composable
 fun content() {
-    Row(
-        modifier = Modifier
-            .height(IntrinsicSize.Min)
-    ) {
-        Box(
-            modifier = Modifier
-                .width(8.dp)
-                .fillMaxHeight()
-                .background(Color.Red)
-        )
-        Column {
-            Text("Hello")
-            Text("World")
-        }
+    Column {
+
+        //Column(modifier = Modifier.fillMaxHeight(0.5f).fillMaxWidth().background(Color.Yellow)) {
+        Text(text = "text1",modifier = Modifier
+            .fillMaxHeight(0.5f)
+            .fillMaxWidth()
+            .background(Color.Yellow))
+        //}
+        //Spacer(Modifier.size(1.dp))
+        //Column(modifier = Modifier.fillMaxHeight(0.5f).fillMaxWidth().background(Color.Red)) {
+        Text(text = "text2",modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .background(Color.Red))
+        //}
     }
 }

@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class MovieClipRepository @Inject constructor(
     private val movieClipDao: MovieClipDao
 ) {
-    suspend fun get(videoId: String) = movieClipDao.get(videoId)
+    fun get(videoId: String) = movieClipDao.get(videoId)
 
     suspend fun delete(movieClip: MovieClip) {
         movieClipDao.delete(movieClip)

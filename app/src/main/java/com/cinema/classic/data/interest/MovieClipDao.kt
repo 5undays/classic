@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieClipDao {
     @Query("SELECT * FROM movie_clip WHERE video_id = :videoId ORDER BY reg_date DESC")
-    suspend fun get(videoId : String): List<MovieClip>
+    fun get(videoId : String): Flow<List<MovieClip>>
 
     @Insert
     fun insert(movieClip: MovieClip)

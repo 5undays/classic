@@ -32,8 +32,7 @@ class YoutubeActivity : FragmentActivity() {
     private fun search(title: String, videoId: String, year: Int) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.getMovieDetail(title, year)
-            viewModel.getMovieClips(videoId)
+            viewModel.getMovieDetail(title, year, videoId)
             viewModel.getMoviePlot(title)
         }
     }

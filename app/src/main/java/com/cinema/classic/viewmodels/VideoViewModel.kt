@@ -1,9 +1,7 @@
 package com.cinema.classic.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.*
 import com.cinema.classic.data.interest.MovieClip
 import com.cinema.classic.model.NaverMovie
 import com.cinema.classic.model.Plot
@@ -17,18 +15,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VideoViewModel @Inject constructor(
-    private val repository: MovieRepository, private val movieClipRepository: MovieClipRepository
+    private val repository: MovieRepository,
+    private val movieClipRepository: MovieClipRepository
 ) : ViewModel() {
+    private val videoId = MutableLiveData("videoId")
+    val video_id: LiveData<String>
+        get() = videoId
 
     private val _data: MutableLiveData<NaverMovie> = MutableLiveData()
     val data: LiveData<NaverMovie> get() = _data
-    private val movieClips: MutableLiveData<List<MovieClip>> = MutableLiveData()
-    val movieClipList: LiveData<List<MovieClip>> get() = movieClips
+    val movieClipList: LiveData<List<MovieClip>> get() = movieClipRepository.get(videoId.value!!).asLiveData()
 
     private val _plotData: MutableLiveData<Plot> = MutableLiveData()
     val plotData: LiveData<Plot> get() = _plotData
 
-    suspend fun getMovieDetail(title: String, year: Int) = viewModelScope.launch {
+    suspend fun getMovieDetail(title: String, year: Int, video_id: String) = viewModelScope.launch {
+        videoId.value = video_id
         val response = repository.get(title, year)
         if (response.isSuccessful) {
             _data.value = response.body()?.items?.get(0)
@@ -42,9 +44,9 @@ class VideoViewModel @Inject constructor(
         }
     }
 
-    suspend fun getMovieClips(videoId: String) {
-        movieClips.value = movieClipRepository.get(videoId)
-    }
+//    suspend fun getMovieClips(videoId: String) {
+//        //movieClips.value = movieClipRepository.get(videoId)
+//    }
 
     suspend fun insertMovieClip(movieClip: MovieClip) {
         movieClipRepository.insert(movieClip)
