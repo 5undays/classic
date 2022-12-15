@@ -31,15 +31,21 @@ import com.cinema.classic.viewmodels.MainViewModel
 
 @Composable
 fun Home(viewModel: MainViewModel) {
-    var list = viewModel.uploadList.observeAsState()
+    val list = viewModel.uploadList.observeAsState()
+    val last = viewModel.lastClip.observeAsState()
 
     ClassicTheme {
         Scaffold(
             topBar = { AppBar() }
         ) { innerPadding ->
             LazyColumn(contentPadding = innerPadding) {
-                item {
-                    Header(stringResource(R.string.popular))
+                last.value?.let {
+                    item {
+                        Header(stringResource(R.string.popular))
+                    }
+                    item {
+                        Text(text = last.value!!.video_id)
+                    }
                 }
                 item {
                     Header(stringResource(R.string.korean_film))

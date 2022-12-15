@@ -1,6 +1,7 @@
 package com.cinema.classic.ui.article
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,13 +10,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +34,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,32 +42,37 @@ import java.util.*
 
 private val defaultSpacerSize = 16.dp
 
+
 @Composable
 fun movieData(video_id: String, viewModel: VideoViewModel) {
     val data1 by viewModel.data.observeAsState()
-    val data2 by viewModel.movieClipList.observeAsState()
+
     ClassicTheme2 {
         data1?.let {
             Column {
-                Column(modifier = Modifier
-                    .height(IntrinsicSize.Min)) {
-                    if (!LocalInspectionMode.current) {
-                        if (data2?.size == 0) {
-                            YoutubePlayerView(video_id, 0f)
-                        } else {
-                            YoutubePlayerView(video_id, data2?.get(0)?.time!!)
-                        }
-                    }
+                Column(
+                    modifier = Modifier
+                        .then(
+                            if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                                Modifier.fillMaxSize()
+                            else Modifier.height(IntrinsicSize.Min)
+                        )
+                ) {
+                    YoutubePlayerView(video_id, viewModel)
                 }
-                Column(modifier = Modifier
-                    .height(IntrinsicSize.Min)
-                    .fillMaxWidth()) {
+                Column(
+                    modifier = Modifier
+                        .height(IntrinsicSize.Min)
+                        .fillMaxWidth()
+                ) {
                     detail(data1!!)
                 }
-                Column(modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth()) {
-                    tabLayout(viewModel = viewModel, videoId = video_id)
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth()
+                ) {
+                    tabLayout(viewModel = viewModel)
                 }
             }
         }
@@ -101,10 +109,15 @@ fun detail(it: NaverMovie) {
 }
 
 @Composable
-fun YoutubePlayerView(video_id: String, time: Float = 0f) {
-    AndroidViewBinding(FragmentContainerYoutubeBinding::inflate) {
-        val f = fragmentContainerView.getFragment<YoutubeFragment>()
-        f.initialVideo(video_id, time)
+fun YoutubePlayerView(video_id: String, viewModel: VideoViewModel) {
+    val data2 by viewModel.movieClipList.observeAsState()
+    if (data2 != null) {
+        AndroidViewBinding(FragmentContainerYoutubeBinding::inflate) {
+            val f = fragmentContainerView.getFragment<YoutubeFragment>()
+            if (f.playstate != PlayerConstants.PlayerState.PLAYING) {
+                f.initialVideo(video_id, data2!!.get(0).time)
+            }
+        }
     }
 }
 
@@ -112,8 +125,8 @@ val pages = listOf("PLOT", "BOOKMARK")
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun tabLayout(viewModel: VideoViewModel, videoId: String) {
-    var list = viewModel.movieClipList.observeAsState()
+private fun tabLayout(viewModel: VideoViewModel) {
+    val list = viewModel.movieClipList.observeAsState()
     val plot by viewModel.plotData.observeAsState()
 
     val pagerState = rememberPagerState()
@@ -235,17 +248,21 @@ fun content() {
     Column {
 
         //Column(modifier = Modifier.fillMaxHeight(0.5f).fillMaxWidth().background(Color.Yellow)) {
-        Text(text = "text1",modifier = Modifier
-            .fillMaxHeight(0.5f)
-            .fillMaxWidth()
-            .background(Color.Yellow))
+        Text(
+            text = "text1", modifier = Modifier
+                .fillMaxHeight(0.5f)
+                .fillMaxWidth()
+                .background(Color.Yellow)
+        )
         //}
         //Spacer(Modifier.size(1.dp))
         //Column(modifier = Modifier.fillMaxHeight(0.5f).fillMaxWidth().background(Color.Red)) {
-        Text(text = "text2",modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .background(Color.Red))
+        Text(
+            text = "text2", modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .background(Color.Red)
+        )
         //}
     }
 }

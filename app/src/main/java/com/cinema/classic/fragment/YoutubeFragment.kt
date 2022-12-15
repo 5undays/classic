@@ -1,5 +1,6 @@
 package com.cinema.classic.fragment
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,10 @@ import androidx.fragment.app.viewModels
 import com.cinema.classic.data.interest.MovieClip
 import com.cinema.classic.databinding.FragmentYoutubeBinding
 import com.cinema.classic.viewmodels.VideoViewModel
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
@@ -21,8 +24,9 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class YoutubeFragment : Fragment() {
-    private lateinit var binding: FragmentYoutubeBinding
+    lateinit var binding: FragmentYoutubeBinding
     lateinit var movieClip: MovieClip
+    lateinit var playstate: PlayerConstants.PlayerState
     private val viewModel: VideoViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +39,11 @@ class YoutubeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentYoutubeBinding.inflate(inflater, container, false)
+        playstate = PlayerConstants.PlayerState.UNKNOWN
         return binding.root
     }
 
-    fun initialVideo(video_id: String, start_second:Float) {
+    fun initialVideo(video_id: String, start_second: Float) {
         val listener: YouTubePlayerListener = object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 val defaultPlayerUiController =
@@ -50,7 +55,27 @@ class YoutubeFragment : Fragment() {
             override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
                 movieClip = MovieClip(video_id, second)
             }
+
+            override fun onStateChange(
+                youTubePlayer: YouTubePlayer,
+                state: PlayerConstants.PlayerState
+            ) {
+                if (state == PlayerConstants.PlayerState.PLAYING && playstate != PlayerConstants.PlayerState.PLAYING) {
+                    playstate = state
+                }
+            }
         }
+        val fullScreenListener: YouTubePlayerFullScreenListener = object :
+            YouTubePlayerFullScreenListener {
+            override fun onYouTubePlayerEnterFullScreen() {
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+
+            override fun onYouTubePlayerExitFullScreen() {
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            }
+        }
+        binding.youtubePlayerView.addFullScreenListener(fullScreenListener)
         // disable iframe ui
         val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
         binding.youtubePlayerView.initialize(listener, options)
@@ -62,6 +87,7 @@ class YoutubeFragment : Fragment() {
         }
         super.onStop()
     }
+
     override fun onDestroy() {
         super.onDestroy()
         binding.youtubePlayerView.release()

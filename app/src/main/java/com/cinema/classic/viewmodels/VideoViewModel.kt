@@ -1,6 +1,5 @@
 package com.cinema.classic.viewmodels
 
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.*
 import com.cinema.classic.data.interest.MovieClip
 import com.cinema.classic.model.NaverMovie
@@ -9,8 +8,6 @@ import com.cinema.classic.repository.MovieClipRepository
 import com.cinema.classic.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,20 +41,12 @@ class VideoViewModel @Inject constructor(
         }
     }
 
-//    suspend fun getMovieClips(videoId: String) {
-//        //movieClips.value = movieClipRepository.get(videoId)
-//    }
-
     suspend fun insertMovieClip(movieClip: MovieClip) {
         movieClipRepository.insert(movieClip)
     }
 
     suspend fun removeMovieClip(movieClip: MovieClip) {
         movieClipRepository.delete(movieClip)
-    }
-
-    suspend fun getLastVideo() {
-        //movieClipRepository.getLastVideo()
     }
 
 }

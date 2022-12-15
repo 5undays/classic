@@ -17,6 +17,6 @@ interface MovieClipDao {
     @Delete
     suspend fun delete(movieClip: MovieClip)
 
-//    @Query("SELECT 1 FROM movie_clip ORDER BY reg_date DESC")
-//    suspend fun getLastVideo() : MovieClip
+    @Query("SELECT * FROM movie_clip ORDER BY reg_date DESC LIMIT 1")
+    fun getLastVideo(): Flow<MovieClip>
 }
