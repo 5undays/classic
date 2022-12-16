@@ -115,7 +115,11 @@ fun YoutubePlayerView(video_id: String, viewModel: VideoViewModel) {
         AndroidViewBinding(FragmentContainerYoutubeBinding::inflate) {
             val f = fragmentContainerView.getFragment<YoutubeFragment>()
             if (f.playstate != PlayerConstants.PlayerState.PLAYING) {
-                f.initialVideo(video_id, data2!!.get(0).time)
+                if (data2?.size!! > 0) {
+                    f.initialVideo(video_id, data2!!.get(0).time)
+                } else {
+                    f.initialVideo(video_id, 0f)
+                }
             }
         }
     }
