@@ -1,7 +1,7 @@
 # 클래식 영화
 고전 클래식 영화 감상 및 정보들을 공유할 수 있는 토이 프로젝트
 
-# Dependycies
+# Dependencies
 - AndroidX
   - Activity
   - Compose
