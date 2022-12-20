@@ -17,7 +17,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             Home(viewmodel)
             viewmodel.lastClip.observe(this) { lastClip ->
-                viewmodel.getMovieDetail(lastClip.movie_name, lastClip.movie_year)
+                if (lastClip != null) {
+                    viewmodel.getMovieDetail(lastClip.movie_name, lastClip.movie_year)
+                }
             }
         }
     }

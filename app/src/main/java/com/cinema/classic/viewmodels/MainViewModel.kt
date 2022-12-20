@@ -34,7 +34,6 @@ class MainViewModel @Inject constructor(
         val response = repository.get(title, year)
         if (response.isSuccessful) {
             _data2.value = response.body()?.items?.get(0)
-            println("data2.value!!.image : "+ data2.value!!.image)
         }
     }
 }
