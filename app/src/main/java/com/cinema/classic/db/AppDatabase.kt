@@ -15,7 +15,7 @@ import com.cinema.classic.util.Converters
 import com.cinema.classic.works.SeedDatabaseWorker
 import com.cinema.classic.works.SeedDatabaseWorker.Companion.KEY_FILENAME
 
-@Database(entities = [MovieClip::class], version = 2)
+@Database(entities = [MovieClip::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieClipDao(): MovieClipDao
@@ -31,16 +31,14 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        // Create and pre-populate the database. See this article for more details:
-        // https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1#4785
         private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(context, AppDatabase::class.java, "kotlin")
+            return Room.databaseBuilder(context, AppDatabase::class.java, "cm")
                 .addCallback(
                     object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
                             val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>()
-                                .setInputData(workDataOf(KEY_FILENAME to "kotlin.json"))
+                                .setInputData(workDataOf(KEY_FILENAME to "cm.json"))
                                 .build()
                             WorkManager.getInstance(context).enqueue(request)
                         }

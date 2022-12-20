@@ -8,5 +8,7 @@ import java.util.*
 data class MovieClip(
     @ColumnInfo(name = "video_id") val video_id: String,
     @ColumnInfo(name = "time") val time: Float = 0f,
+    @ColumnInfo(name = "movie_name") val movie_name: String = "",
+    @ColumnInfo(name = "movie_year") val movie_year: Int,
     @ColumnInfo(name = "reg_date") val reg_date: Calendar = Calendar.getInstance()
 )

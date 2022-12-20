@@ -27,11 +27,11 @@ class YoutubeActivity : FragmentActivity() {
         }
         setContent {
             val video_id = intent.getStringExtra("video_id")
-            val title = intent.getStringExtra("title")?.split("/")
-            val kor = title?.get(0)?.split("(")
-            if (video_id != null && kor != null) {
+            val title = intent.getStringExtra("title")
+            val year = intent.getIntExtra("year", 0)
+            if (video_id != null && title != null) {
                 movieData(video_id, viewModel)
-                search(kor.get(0), video_id, Integer.parseInt(kor.get(1).replace(")", "").trim()))
+                search(title, video_id, year)
             }
         }
     }

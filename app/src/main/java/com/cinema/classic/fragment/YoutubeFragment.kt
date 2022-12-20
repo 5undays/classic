@@ -25,8 +25,12 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class YoutubeFragment : Fragment() {
     lateinit var binding: FragmentYoutubeBinding
-    lateinit var movieClip: MovieClip
     lateinit var playstate: PlayerConstants.PlayerState
+    var seconds: Float = 0.0f
+    lateinit var id: String
+    lateinit var video_name: String
+    var year: Int = 0
+
     private val viewModel: VideoViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +47,10 @@ class YoutubeFragment : Fragment() {
         return binding.root
     }
 
-    fun initialVideo(video_id: String, start_second: Float) {
+    fun initialVideo(video_id: String, start_second: Float, title: String, movie_year: Int) {
+        video_name = title
+        id = video_id
+        year = movie_year
         val listener: YouTubePlayerListener = object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 val defaultPlayerUiController =
@@ -53,7 +60,7 @@ class YoutubeFragment : Fragment() {
             }
 
             override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
-                movieClip = MovieClip(video_id, second)
+                seconds = second
             }
 
             override fun onStateChange(
@@ -83,7 +90,7 @@ class YoutubeFragment : Fragment() {
 
     override fun onStop() {
         CoroutineScope(Dispatchers.IO).launch {
-            viewModel.insertMovieClip(movieClip = movieClip)
+            viewModel.insertMovieClip(movieClip = MovieClip(id, seconds, video_name, year))
         }
         super.onStop()
     }

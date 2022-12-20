@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
@@ -58,7 +57,7 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
                             else Modifier.height(IntrinsicSize.Min)
                         )
                 ) {
-                    YoutubePlayerView(video_id, viewModel)
+                    YoutubePlayerView(data1!!.title, video_id, data1!!.pubDate, viewModel)
                 }
                 Column(
                     modifier = Modifier
@@ -109,16 +108,16 @@ fun detail(it: NaverMovie) {
 }
 
 @Composable
-fun YoutubePlayerView(video_id: String, viewModel: VideoViewModel) {
+fun YoutubePlayerView(title: String, video_id: String, year: String, viewModel: VideoViewModel) {
     val data2 by viewModel.movieClipList.observeAsState()
     if (data2 != null) {
         AndroidViewBinding(FragmentContainerYoutubeBinding::inflate) {
             val f = fragmentContainerView.getFragment<YoutubeFragment>()
             if (f.playstate != PlayerConstants.PlayerState.PLAYING) {
                 if (data2?.size!! > 0) {
-                    f.initialVideo(video_id, data2!!.get(0).time)
+                    f.initialVideo(video_id, data2!!.get(0).time, title.replace("<b>", "").replace("</b>", ""), Integer.parseInt(year))
                 } else {
-                    f.initialVideo(video_id, 0f)
+                    f.initialVideo(video_id, 0f, title.replace("<b>", "").replace("</b>", ""), Integer.parseInt(year))
                 }
             }
         }
@@ -241,7 +240,7 @@ fun PostItem(
 fun PreviewPost() {
     ClassicTheme {
         Surface {
-            PostItem(post = MovieClip("2j7uys48wwc", 2266.77F, Calendar.getInstance()), {})
+            //PostItem(post = MovieClip("2j7uys48wwc", 2266.77F, Calendar.getInstance()), {})
         }
     }
 }
