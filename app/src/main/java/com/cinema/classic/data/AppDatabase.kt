@@ -1,4 +1,4 @@
-package com.cinema.classic.db
+package com.cinema.classic.data
 
 import android.content.Context
 import androidx.room.Database
@@ -9,9 +9,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.cinema.classic.data.interest.MovieClip
-import com.cinema.classic.data.interest.MovieClipDao
-import com.cinema.classic.util.Converters
 import com.cinema.classic.works.SeedDatabaseWorker
 import com.cinema.classic.works.SeedDatabaseWorker.Companion.KEY_FILENAME
 

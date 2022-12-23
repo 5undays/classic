@@ -1,4 +1,4 @@
-package com.cinema.classic.ui.utils
+package com.cinema.classic.compose.utils
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark

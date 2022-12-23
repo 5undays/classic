@@ -1,4 +1,4 @@
-package com.cinema.classic.data.interest
+package com.cinema.classic.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

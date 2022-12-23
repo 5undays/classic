@@ -1,7 +1,5 @@
-package com.cinema.classic.repository
+package com.cinema.classic.data
 
-import com.cinema.classic.data.interest.MovieClip
-import com.cinema.classic.data.interest.MovieClipDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

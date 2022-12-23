@@ -2,11 +2,9 @@ package com.cinema.classic.data.interest
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
-import com.cinema.classic.data.interest.util.testMovieClips
-import com.cinema.classic.db.AppDatabase
+import com.cinema.classic.data.AppDatabase
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import com.cinema.classic.data.MovieClipDao
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

@@ -25,11 +25,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cinema.classic.R
 import com.cinema.classic.YoutubeActivity
-import com.cinema.classic.data.interest.MovieClip
+import com.cinema.classic.data.MovieClip
 import com.cinema.classic.model.Item
 import com.cinema.classic.model.NaverMovie
 import com.cinema.classic.model.YoutubeRepo
-import com.cinema.classic.ui.theme.ClassicTheme
+import com.cinema.classic.compose.theme.ClassicTheme
 import com.cinema.classic.viewmodels.MainViewModel
 
 @Composable

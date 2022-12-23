@@ -1,4 +1,4 @@
-package com.cinema.classic.fragment
+package com.cinema.classic
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.cinema.classic.data.interest.MovieClip
+import com.cinema.classic.data.MovieClip
 import com.cinema.classic.databinding.FragmentYoutubeBinding
 import com.cinema.classic.viewmodels.VideoViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants

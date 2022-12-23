@@ -1,4 +1,4 @@
-package com.cinema.classic.repository
+package com.cinema.classic.data
 
 import com.cinema.classic.api.MovieService
 import com.cinema.classic.model.KmdbResult
