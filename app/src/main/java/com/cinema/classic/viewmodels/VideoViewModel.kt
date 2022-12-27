@@ -2,7 +2,7 @@ package com.cinema.classic.viewmodels
 
 import androidx.lifecycle.*
 import com.cinema.classic.data.MovieClip
-import com.cinema.classic.model.NaverMovie
+import com.cinema.classic.data.NaverMovie
 import com.cinema.classic.model.Plot
 import com.cinema.classic.data.MovieClipRepository
 import com.cinema.classic.data.MovieRepository

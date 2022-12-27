@@ -24,7 +24,7 @@ import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.cinema.classic.data.MovieClip
 import com.cinema.classic.databinding.FragmentContainerYoutubeBinding
 import com.cinema.classic.YoutubeFragment
-import com.cinema.classic.model.NaverMovie
+import com.cinema.classic.data.NaverMovie
 import com.cinema.classic.compose.theme.ClassicTheme
 import com.cinema.classic.compose.theme.ClassicTheme2
 import com.cinema.classic.compose.utils.BookmarkButton

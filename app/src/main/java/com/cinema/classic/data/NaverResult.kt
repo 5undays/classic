@@ -1,4 +1,4 @@
-package com.cinema.classic.model
+package com.cinema.classic.data
 
 import com.google.gson.annotations.SerializedName
 

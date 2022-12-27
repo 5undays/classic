@@ -1,4 +1,4 @@
-package com.cinema.classic.model
+package com.cinema.classic.data
 
 import com.google.gson.annotations.SerializedName
 
@@ -15,7 +15,7 @@ data class Item(
     @field:SerializedName("kind") val kind: String,
     @field:SerializedName("etag") val etag:String,
     @field:SerializedName("id") val id: Id,
-    @field:SerializedName("snippet") val snippet:Snippet
+    @field:SerializedName("snippet") val snippet: Snippet
 )
 
 data class Snippet (
@@ -23,16 +23,16 @@ data class Snippet (
     @field:SerializedName("channelId") val channelId:String,
     @field:SerializedName("title") val title:String,
     @field:SerializedName("description") val description:String,
-    @field:SerializedName("thumbnails") val thumbnails:Thumbnails,
+    @field:SerializedName("thumbnails") val thumbnails: Thumbnails,
     @field:SerializedName("channelTitle") val channelTitle:String,
     @field:SerializedName("liveBroadcastContent") val liveBroadcastContent:String,
     @field:SerializedName("publishTime") val publishTime:String
 )
 
 data class Thumbnails (
-    @field:SerializedName("default") val default:Thumbnail,
-    @field:SerializedName("medium") val medium:Thumbnail,
-    @field:SerializedName("high") val high:Thumbnail
+    @field:SerializedName("default") val default: Thumbnail,
+    @field:SerializedName("medium") val medium: Thumbnail,
+    @field:SerializedName("high") val high: Thumbnail
 )
 
 data class Thumbnail(
