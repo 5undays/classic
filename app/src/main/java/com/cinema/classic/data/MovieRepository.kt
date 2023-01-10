@@ -1,7 +1,6 @@
 package com.cinema.classic.data
 
 import com.cinema.classic.api.MovieService
-import com.cinema.classic.model.KmdbResult
 import retrofit2.Response
 import javax.inject.Inject
 

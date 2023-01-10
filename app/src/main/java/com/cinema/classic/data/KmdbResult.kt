@@ -1,4 +1,4 @@
-package com.cinema.classic.model
+package com.cinema.classic.data
 
 data class KmdbResult(
     val Query: String,

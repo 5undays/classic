@@ -1,7 +1,7 @@
 package com.cinema.classic.api
 
 import com.cinema.classic.BuildConfig
-import com.cinema.classic.model.KmdbResult
+import com.cinema.classic.data.KmdbResult
 import com.cinema.classic.data.NaverResult
 import com.cinema.classic.data.Youtube
 import com.google.gson.GsonBuilder
