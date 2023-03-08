@@ -22,6 +22,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
 import coil.compose.AsyncImage
 import com.cinema.classic.R
 import com.cinema.classic.YoutubeActivity
@@ -157,12 +158,22 @@ fun LastMovie(movie: State<NaverMovie?>, clip: MovieClip, viewModel: MainViewMod
     Card(
         modifier = Modifier
             .clickable {
-                val intent = Intent(ctx, YoutubeActivity::class.java).apply {
-                    putExtra("title", clip.movie_name)
-                    putExtra("year", clip.movie_year)
-                    putExtra("video_id", clip.video_id)
+                Intent().apply {
+                    setClass(ctx,YoutubeActivity::class.java)
+                    putExtras(
+                        bundleOf(
+                            "title" to clip.movie_name,
+                            "year" to clip.movie_year,
+                            "video_id" to clip.video_id
+                        )
+                    )
                 }
-                ctx.startActivity(intent)
+//                val intent = Intent(ctx, YoutubeActivity::class.java).apply {
+//                    putExtra("title", clip.movie_name)
+//                    putExtra("year", clip.movie_year)
+//                    putExtra("video_id", clip.video_id)
+//                }
+//                ctx.startActivity(intent)
             }
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .height(150.dp)

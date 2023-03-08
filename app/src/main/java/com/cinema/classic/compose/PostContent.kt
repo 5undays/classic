@@ -1,4 +1,4 @@
-package com.cinema.classic.ui.article
+package com.cinema.classic.compose
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -43,8 +43,9 @@ private val defaultSpacerSize = 16.dp
 
 
 @Composable
-fun movieData(video_id: String, viewModel: VideoViewModel) {
+fun movieData(viewModel: VideoViewModel) {
     val data1 by viewModel.data.observeAsState()
+    val videoId by viewModel.videoId.observeAsState()
 
     ClassicTheme2 {
         data1?.let {
@@ -57,7 +58,7 @@ fun movieData(video_id: String, viewModel: VideoViewModel) {
                             else Modifier.height(IntrinsicSize.Min)
                         )
                 ) {
-                    YoutubePlayerView(data1!!.title, video_id, data1!!.pubDate, viewModel)
+                    YoutubePlayerView(data1!!.title, videoId!!, data1!!.pubDate, viewModel)
                 }
                 Column(
                     modifier = Modifier
@@ -115,9 +116,19 @@ fun YoutubePlayerView(title: String, video_id: String, year: String, viewModel: 
             val f = fragmentContainerView.getFragment<YoutubeFragment>()
             if (f.playstate != PlayerConstants.PlayerState.PLAYING) {
                 if (data2?.size!! > 0) {
-                    f.initialVideo(video_id, data2!!.get(0).time, title.replace("<b>", "").replace("</b>", ""), Integer.parseInt(year))
+                    f.initialVideo(
+                        video_id,
+                        data2!!.get(0).time,
+                        title.replace("<b>", "").replace("</b>", ""),
+                        Integer.parseInt(year)
+                    )
                 } else {
-                    f.initialVideo(video_id, 0f, title.replace("<b>", "").replace("</b>", ""), Integer.parseInt(year))
+                    f.initialVideo(
+                        video_id,
+                        0f,
+                        title.replace("<b>", "").replace("</b>", ""),
+                        Integer.parseInt(year)
+                    )
                 }
             }
         }

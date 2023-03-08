@@ -15,13 +15,13 @@ class MainViewModel @Inject constructor(
     private val repository: MovieRepository,
     private val movieClipRepository: MovieClipRepository
 ) : ViewModel() {
-    private val _data: MutableLiveData<List<Item>> = MutableLiveData<List<Item>>();
+    private val _data: MutableLiveData<List<Item>> = MutableLiveData<List<Item>>()
     val uploadList: LiveData<List<Item>> get() = _data
     val lastClip: LiveData<MovieClip> get() = movieClipRepository.getLastVideo().asLiveData()
 
     init {
         viewModelScope.launch {
-            val response = repository.load();
+            val response = repository.load()
             if (response.isSuccessful) {
                 _data.value = response.body()?.items
             }

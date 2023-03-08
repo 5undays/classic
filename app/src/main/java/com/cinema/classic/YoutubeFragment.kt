@@ -55,7 +55,7 @@ class YoutubeFragment : Fragment() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 val defaultPlayerUiController =
                     DefaultPlayerUiController(binding.youtubePlayerView, youTubePlayer)
-                binding.youtubePlayerView.setCustomPlayerUi(defaultPlayerUiController.rootView);
+                binding.youtubePlayerView.setCustomPlayerUi(defaultPlayerUiController.rootView)
                 youTubePlayer.loadVideo(video_id, start_second)
             }
 

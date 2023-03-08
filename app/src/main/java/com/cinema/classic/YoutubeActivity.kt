@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import com.cinema.classic.ui.article.movieData
+import com.cinema.classic.compose.movieData
 import com.cinema.classic.viewmodels.VideoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class YoutubeActivity : FragmentActivity() {
     private val viewModel: VideoViewModel by viewModels()
 
-    private var searchJob: Job? = null
+    //private var searchJob: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -26,23 +26,18 @@ class YoutubeActivity : FragmentActivity() {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         }
         setContent {
-            val video_id = intent.getStringExtra("video_id")
-            val title = intent.getStringExtra("title")
-            val year = intent.getIntExtra("year", 0)
-            if (video_id != null && title != null) {
-                movieData(video_id, viewModel)
-                search(title, video_id, year)
-            }
+            movieData(viewModel)
+            //search(title, video_id, year)
         }
     }
 
-    private fun search(title: String, videoId: String, year: Int) {
-        searchJob?.cancel()
-        searchJob = lifecycleScope.launch {
-            viewModel.getMovieDetail(title, year, videoId)
-            viewModel.getMoviePlot(title)
-        }
-    }
+//    private fun search(title: String, videoId: String, year: Int) {
+//        searchJob?.cancel()
+//        searchJob = lifecycleScope.launch {
+//            viewModel.getMovieDetail(title, year, videoId)
+//            viewModel.getMoviePlot(title)
+//        }
+//    }
 }
 
 
