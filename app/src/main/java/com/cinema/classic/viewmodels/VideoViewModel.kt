@@ -16,7 +16,7 @@ class VideoViewModel @Inject constructor(
     private val movieClipRepository: MovieClipRepository,
     private val handle: SavedStateHandle
 ) : ViewModel() {
-    val videoId = handle.getLiveData("video_id", "")
+    val videoId = handle.get<String>("video_id")
     val year = handle.get<Int>("year")
     val title = handle.get<String>("title")
 
@@ -39,7 +39,7 @@ class VideoViewModel @Inject constructor(
     private val _data: MutableLiveData<NaverMovie> = MutableLiveData()
     val data: LiveData<NaverMovie> get() = _data
     val movieClipList: LiveData<List<MovieClip>> =
-        movieClipRepository.get(videoId.value!!).asLiveData()
+        movieClipRepository.get(videoId.toString()).asLiveData()
     private val _plotData: MutableLiveData<Plot> = MutableLiveData()
     val plotData: LiveData<Plot> get() = _plotData
 

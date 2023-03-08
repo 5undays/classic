@@ -26,11 +26,11 @@ import androidx.core.os.bundleOf
 import coil.compose.AsyncImage
 import com.cinema.classic.R
 import com.cinema.classic.YoutubeActivity
-import com.cinema.classic.data.MovieClip
+import com.cinema.classic.compose.theme.ClassicTheme
 import com.cinema.classic.data.Item
+import com.cinema.classic.data.MovieClip
 import com.cinema.classic.data.NaverMovie
 import com.cinema.classic.data.YoutubeRepo
-import com.cinema.classic.compose.theme.ClassicTheme
 import com.cinema.classic.viewmodels.MainViewModel
 
 @Composable
@@ -158,8 +158,8 @@ fun LastMovie(movie: State<NaverMovie?>, clip: MovieClip, viewModel: MainViewMod
     Card(
         modifier = Modifier
             .clickable {
-                Intent().apply {
-                    setClass(ctx,YoutubeActivity::class.java)
+                ctx.startActivity(Intent().apply {
+                    setClass(ctx, YoutubeActivity::class.java)
                     putExtras(
                         bundleOf(
                             "title" to clip.movie_name,
@@ -167,7 +167,7 @@ fun LastMovie(movie: State<NaverMovie?>, clip: MovieClip, viewModel: MainViewMod
                             "video_id" to clip.video_id
                         )
                     )
-                }
+                })
 //                val intent = Intent(ctx, YoutubeActivity::class.java).apply {
 //                    putExtra("title", clip.movie_name)
 //                    putExtra("year", clip.movie_year)

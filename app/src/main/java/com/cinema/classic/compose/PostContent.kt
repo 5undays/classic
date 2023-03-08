@@ -45,7 +45,6 @@ private val defaultSpacerSize = 16.dp
 @Composable
 fun movieData(viewModel: VideoViewModel) {
     val data1 by viewModel.data.observeAsState()
-    val videoId by viewModel.videoId.observeAsState()
 
     ClassicTheme2 {
         data1?.let {
@@ -58,7 +57,7 @@ fun movieData(viewModel: VideoViewModel) {
                             else Modifier.height(IntrinsicSize.Min)
                         )
                 ) {
-                    YoutubePlayerView(data1!!.title, videoId!!, data1!!.pubDate, viewModel)
+                    YoutubePlayerView(data1!!.title, viewModel.videoId.toString() , data1!!.pubDate, viewModel)
                 }
                 Column(
                     modifier = Modifier
