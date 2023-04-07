@@ -1,6 +1,6 @@
 package com.cinema.classic.di
 
-import com.cinema.classic.api.MovieService
+import com.cinema.classic.data.remote.MovieApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun movieService(): MovieService {
-        return MovieService.create()
+    fun movieService(): MovieApi {
+        return MovieApi.create()
     }
 }

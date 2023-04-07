@@ -1,8 +1,8 @@
 package com.cinema.classic.di
 
 import android.content.Context
-import com.cinema.classic.data.MovieClipDao
-import com.cinema.classic.data.AppDatabase
+import com.cinema.classic.data.local.MovieClipApi
+import com.cinema.classic.data.local.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +21,7 @@ class DatabaseModule {
     }
 
     @Provides
-    fun providePlantDao(appDatabase: AppDatabase): MovieClipDao {
+    fun providePlantDao(appDatabase: AppDatabase): MovieClipApi {
         return appDatabase.movieClipDao()
     }
 

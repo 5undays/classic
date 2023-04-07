@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cinema.classic.data
+package com.cinema.classic.common
 
 import androidx.room.TypeConverter
 import java.util.Calendar

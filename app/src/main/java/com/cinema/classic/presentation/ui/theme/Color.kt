@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.cinema.classic.presentation.ui.theme
 
-package com.cinema.classic.compose.theme
+import androidx.compose.ui.graphics.Color
 
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Shapes
-import androidx.compose.ui.unit.dp
-
-val JetnewsShapes = Shapes(
-    small = CutCornerShape(topStart = 8.dp),
-    medium = CutCornerShape(topStart = 24.dp),
-    large = RoundedCornerShape(8.dp)
-)
+val Red200 = Color(0xfff297a2)
+val Red300 = Color(0xffea6d7e)
+val Red700 = Color(0xffdd0d3c)
+val Red800 = Color(0xffd00036)
+val Red900 = Color(0xffc20029)

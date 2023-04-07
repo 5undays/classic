@@ -1,11 +1,11 @@
-package com.cinema.classic.viewmodels
+package com.cinema.classic.presentation.video_detail
 
 import androidx.lifecycle.*
-import com.cinema.classic.data.MovieClip
+import com.cinema.classic.data.local.dto.MovieClip
 import com.cinema.classic.data.NaverMovie
 import com.cinema.classic.data.Plot
-import com.cinema.classic.data.MovieClipRepository
-import com.cinema.classic.data.MovieRepository
+import com.cinema.classic.data.repository.MovieClipRepository
+import com.cinema.classic.data.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

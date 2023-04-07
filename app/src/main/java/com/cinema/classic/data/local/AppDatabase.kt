@@ -1,4 +1,4 @@
-package com.cinema.classic.data
+package com.cinema.classic.data.local
 
 import android.content.Context
 import androidx.room.Database
@@ -9,13 +9,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.cinema.classic.works.SeedDatabaseWorker
-import com.cinema.classic.works.SeedDatabaseWorker.Companion.KEY_FILENAME
+import com.cinema.classic.common.Converters
+import com.cinema.classic.data.local.dto.MovieClip
+import com.cinema.classic.data.local.SeedDatabaseWorker.Companion.KEY_FILENAME
 
 @Database(entities = [MovieClip::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun movieClipDao(): MovieClipDao
+    abstract fun movieClipDao(): MovieClipApi
 
     companion object {
 

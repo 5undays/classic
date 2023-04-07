@@ -1,13 +1,14 @@
-package com.cinema.classic.data
+package com.cinema.classic.data.local
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.cinema.classic.data.local.dto.MovieClip
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MovieClipDao {
+interface MovieClipApi {
     @Query("SELECT * FROM movie_clip WHERE video_id = :videoId ORDER BY reg_date DESC")
     fun get(videoId : String): Flow<List<MovieClip>>
 

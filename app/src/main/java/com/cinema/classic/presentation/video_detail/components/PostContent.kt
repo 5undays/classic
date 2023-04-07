@@ -1,4 +1,4 @@
-package com.cinema.classic.compose
+package com.cinema.classic.presentation.ui
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -21,14 +21,14 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
-import com.cinema.classic.data.MovieClip
+import com.cinema.classic.data.local.dto.MovieClip
 import com.cinema.classic.databinding.FragmentContainerYoutubeBinding
-import com.cinema.classic.YoutubeFragment
+import com.cinema.classic.presentation.video_detail.components.YoutubeFragment
 import com.cinema.classic.data.NaverMovie
-import com.cinema.classic.compose.theme.ClassicTheme
-import com.cinema.classic.compose.theme.ClassicTheme2
-import com.cinema.classic.compose.utils.BookmarkButton
-import com.cinema.classic.viewmodels.VideoViewModel
+import com.cinema.classic.presentation.ui.theme.ClassicTheme
+import com.cinema.classic.presentation.ui.theme.ClassicTheme2
+import com.cinema.classic.presentation.ui.utils.BookmarkButton
+import com.cinema.classic.presentation.video_detail.VideoViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset

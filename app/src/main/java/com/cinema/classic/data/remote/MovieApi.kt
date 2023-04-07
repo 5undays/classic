@@ -1,4 +1,4 @@
-package com.cinema.classic.api
+package com.cinema.classic.data.remote
 
 import com.cinema.classic.BuildConfig
 import com.cinema.classic.data.KmdbResult
@@ -14,7 +14,7 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 
-interface MovieService {
+interface MovieApi {
     @GET
     suspend fun get3(
         @Url url: String,
@@ -48,7 +48,7 @@ interface MovieService {
     companion object {
         private const val BASE_URL = "https://www.googleapis.com/youtube/v3/"
 
-        fun create(): MovieService {
+        fun create(): MovieApi {
             val gson = GsonBuilder()
                 .setLenient()
                 .create()
@@ -57,7 +57,7 @@ interface MovieService {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
-                .create(MovieService::class.java)
+                .create(MovieApi::class.java)
         }
     }
 }

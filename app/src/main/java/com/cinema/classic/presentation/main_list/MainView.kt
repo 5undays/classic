@@ -1,4 +1,4 @@
-package com.cinema.classic.compose
+package com.cinema.classic.presentation.ui
 
 import android.content.Intent
 import androidx.compose.foundation.clickable
@@ -26,12 +26,12 @@ import androidx.core.os.bundleOf
 import coil.compose.AsyncImage
 import com.cinema.classic.R
 import com.cinema.classic.YoutubeActivity
-import com.cinema.classic.compose.theme.ClassicTheme
+import com.cinema.classic.presentation.ui.theme.ClassicTheme
 import com.cinema.classic.data.Item
-import com.cinema.classic.data.MovieClip
+import com.cinema.classic.data.local.dto.MovieClip
 import com.cinema.classic.data.NaverMovie
 import com.cinema.classic.data.YoutubeRepo
-import com.cinema.classic.viewmodels.MainViewModel
+import com.cinema.classic.presentation.main_list.MainViewModel
 
 @Composable
 fun Home(viewModel: MainViewModel) {

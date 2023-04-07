@@ -1,4 +1,4 @@
-package com.cinema.classic.data
+package com.cinema.classic.data.local.dto
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
