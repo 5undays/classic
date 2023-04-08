@@ -1,39 +1,69 @@
 package com.cinema.classic.presentation.main_list
 
-import androidx.lifecycle.*
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.cinema.classic.common.Resource
 import com.cinema.classic.data.local.dto.MovieClip
-import com.cinema.classic.data.Item
-import com.cinema.classic.data.NaverMovie
 import com.cinema.classic.data.repository.MovieClipRepository
-import com.cinema.classic.data.repository.MovieRepository
+import com.cinema.classic.domain.use_case.get_naver.GetNaverUseCase
+import com.cinema.classic.domain.use_case.get_youtube.GetYoutubeListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: MovieRepository,
+    private val getYoutubeListUseCase: GetYoutubeListUseCase,
+    private val getNaverUseCase: GetNaverUseCase,
     private val movieClipRepository: MovieClipRepository
 ) : ViewModel() {
-    private val _data: MutableLiveData<List<Item>> = MutableLiveData<List<Item>>()
-    val uploadList: LiveData<List<Item>> get() = _data
+    private val _list = mutableStateOf(MainViewState())
+    val list: State<MainViewState> = _list
+
     val lastClip: LiveData<MovieClip> get() = movieClipRepository.getLastVideo().asLiveData()
+    private val _lastMovieData = mutableStateOf(LastMovieState())
+    val lastMovieData: State<LastMovieState> = _lastMovieData
 
     init {
-        viewModelScope.launch {
-            val response = repository.load()
-            if (response.isSuccessful) {
-                _data.value = response.body()?.items
-            }
-        }
+        getYoutubeList()
     }
 
-    private val _data2: MutableLiveData<NaverMovie> = MutableLiveData()
-    val data2: LiveData<NaverMovie> get() = _data2
-    fun getMovieDetail(title: String, year: Int) = viewModelScope.launch {
-        val response = repository.get(title, year)
-        if (response.isSuccessful) {
-            _data2.value = response.body()?.items?.get(0)
+    private fun getYoutubeList() {
+        getYoutubeListUseCase().onEach { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _list.value =
+                        MainViewState(error = result.message ?: "An unexpected error occured")
+                }
+                is Resource.Success -> {
+                    _list.value = MainViewState(youtubeList = result.data ?: emptyList())
+                }
+                is Resource.Loading -> {
+                    _list.value = MainViewState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getMovieDetail(title: String, year: Int) {
+        getNaverUseCase(title, year).onEach { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    _lastMovieData.value = LastMovieState(isLoading = true)
+                }
+                is Resource.Success -> {
+                    _lastMovieData.value = LastMovieState(movie = result.data)
+                }
+                is Resource.Error -> {
+                    _lastMovieData.value =
+                        LastMovieState(error = result.message ?: "An unexpected error occured")
+                }
+            }
         }
     }
 }

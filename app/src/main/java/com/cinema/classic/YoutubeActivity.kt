@@ -6,7 +6,6 @@ import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
-import com.cinema.classic.presentation.ui.movieData
 import com.cinema.classic.presentation.video_detail.VideoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +21,7 @@ class YoutubeActivity : FragmentActivity() {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         }
         setContent {
-            movieData(viewModel)
+            //movieData(viewModel)
         }
     }
 }

@@ -1,6 +1,8 @@
-package com.cinema.classic.data
+package com.cinema.classic.data.remote.dto
 
-data class KmdbResult(
+import com.cinema.classic.domain.model.Plot
+
+data class KmdbDto(
     val Query: String,
     val KMAQuery: String,
     val TotalCount: Int,
@@ -84,10 +86,10 @@ data class Actor(
 )
 
 data class Plots(
-    val plot: List<Plot>
+    val plotDto: List<PlotDto>
 )
 
-data class Plot(
+data class PlotDto(
     val plotLang: String,
     val plotText: String,
 )
@@ -153,3 +155,10 @@ data class CommCode(
     val CodeNm: String,
     val CodeNo: String
 )
+
+fun PlotDto.toItem() : Plot {
+    return Plot(
+        plotLang = plotLang,
+        plotText = plotText
+    )
+}

@@ -1,13 +1,7 @@
 package com.cinema.classic.data.remote
 
 import com.cinema.classic.BuildConfig
-import com.cinema.classic.data.KmdbResult
-import com.cinema.classic.data.NaverResult
-import com.cinema.classic.data.Youtube
-import com.google.gson.GsonBuilder
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.cinema.classic.data.remote.dto.*
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -16,48 +10,33 @@ import retrofit2.http.Url
 
 interface MovieApi {
     @GET
-    suspend fun get3(
+    suspend fun getMovieByKmdb(
         @Url url: String,
         @Query("title") title: String,
         @Query("ServiceKey") serviceKey: String = "05W1A4LLI30JJBDZC626",
         @Query("collection") collection: String = "kmdb_new2"
-    ): Response<KmdbResult>
+    ): KmdbDto
 
     @Headers(
         "X-Naver-Client-Id: " + BuildConfig.NAVER_CLIENT_KEY,
         "X-Naver-Client-Secret: Y19lKc_Nv9"
     )
     @GET
-    suspend fun get2(
+    suspend fun getMovieByNaver(
         @Url url: String,
         @Query("query") title: String,
         @Query("yearto") yearto: Int,
         @Query("yearfrom") yearfrom: Int
-    ): Response<NaverResult>
+    ): NaverDto
 
     @GET
-    suspend fun get(
+    suspend fun getYoutubeVideoList(
         @Url url: String,
         @Query("part") part: String = "snippet",
         @Query("channelId") channelId: String = "UCvH6u_Qzn5RQdz9W198umDw",
         @Query("order") order: String = "date",
         @Query("safeSearch") safeSearch: String = "strict",
         @Query("key") key: String = BuildConfig.GOOGLE_API_KEY
-    ): Response<Youtube>
+    ): Youtube
 
-    companion object {
-        private const val BASE_URL = "https://www.googleapis.com/youtube/v3/"
-
-        fun create(): MovieApi {
-            val gson = GsonBuilder()
-                .setLenient()
-                .create()
-
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build()
-                .create(MovieApi::class.java)
-        }
-    }
 }

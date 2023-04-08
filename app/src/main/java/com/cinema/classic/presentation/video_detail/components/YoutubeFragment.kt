@@ -90,7 +90,7 @@ class YoutubeFragment : Fragment() {
 
     override fun onStop() {
         CoroutineScope(Dispatchers.IO).launch {
-            viewModel.insertMovieClip(movieClip = MovieClip(id, seconds, video_name, year))
+            //viewModel.insertMovieClip(movieClip = MovieClip(id, seconds, video_name, year))
         }
         super.onStop()
     }

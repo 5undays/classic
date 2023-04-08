@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.cinema.classic.presentation.ui.Home
+import com.cinema.classic.presentation.main_list.Home
 import com.cinema.classic.presentation.main_list.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
