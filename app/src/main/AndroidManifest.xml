@@ -14,6 +14,7 @@
         android:theme="@style/Theme.ComposeTheming"
         tools:targetApi="33">
         <activity
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -21,10 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".YoutubeActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
+<!--        <activity-->
+<!--            android:name=".YoutubeActivity"-->
+<!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
+<!--            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />-->
     </application>
     <queries>
         <intent>

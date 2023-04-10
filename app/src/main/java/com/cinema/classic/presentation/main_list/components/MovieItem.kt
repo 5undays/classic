@@ -1,43 +1,44 @@
 package com.cinema.classic.presentation.main_list.components
 
-import android.content.Intent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import coil.compose.AsyncImage
-import com.cinema.classic.YoutubeActivity
-import com.cinema.classic.domain.model.MovieClip
-import com.cinema.classic.domain.model.NaverMovie
+import androidx.compose.material.Text
+import com.cinema.classic.domain.model.Movie
 
 @Composable
-fun LastMovie(movie: NaverMovie, clip: MovieClip) {
+fun MovieItem(
+    movie: Movie,
+    modifier: Modifier = Modifier
+) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .height(150.dp)
     ) {
         AsyncImage(
-            model = movie.image,
-            contentDescription = movie.director,
+            model = movie.thumbnail,
+            contentDescription = movie.description,
             contentScale = ContentScale.Crop
         )
         Column(
             verticalArrangement = Arrangement.Bottom,
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
+            modifier = modifier.padding(vertical = 8.dp, horizontal = 8.dp)
         ) {
-            Text(text = clip.movie_name, fontWeight = FontWeight.ExtraBold, color = Color.White)
+            Text(text = movie.title, fontWeight = FontWeight.ExtraBold, color = Color.White)
+//            if (title.size > 1) {
+//                Text(text = title[1], color = Color.White)
+//            }
         }
     }
 }

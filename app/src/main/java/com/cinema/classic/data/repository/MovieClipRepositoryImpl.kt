@@ -4,8 +4,9 @@ import com.cinema.classic.data.local.MovieClipDao
 import com.cinema.classic.domain.model.MovieClip
 import com.cinema.classic.domain.repository.MovieClipRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class MovieClipRepositoryImpl constructor(
+class MovieClipRepositoryImpl @Inject constructor(
     private val movieClipDao: MovieClipDao
 ) : MovieClipRepository {
     override fun getMovieClips(videoId: String): Flow<List<MovieClip>> {

@@ -24,7 +24,7 @@ class VideoViewModel @Inject constructor(
     private val videoViewUseCase: VideoViewUseCase,
     private val handle: SavedStateHandle
 ) : ViewModel() {
-    val videoId = handle.get<String>("video_id")
+    val videoId = handle.get<String>("videoId")
     val year = handle.get<Int>("year")
     val title = handle.get<String>("title")
 
@@ -35,13 +35,12 @@ class VideoViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
     init {
         if (title != null && year != null) {
-            getMovieDetail(title, year)
-            getPlot(title)
+            getMovieDetail(title)
         }
     }
 
-    private fun getMovieDetail(title: String, year: Int) {
-        videoViewUseCase.getNaverUseCase(title, year).onEach { result ->
+    private fun getMovieDetail(title: String) {
+        videoViewUseCase.getKmdbUserCase(title).onEach { result ->
             when (result) {
                 is Resource.Loading -> {
                     _data.value = MovieState(isLoading = true)
@@ -54,24 +53,7 @@ class VideoViewModel @Inject constructor(
                         MovieState(error = result.message ?: "An unexpected error occured")
                 }
             }
-        }
-    }
-
-    private fun getPlot(title: String) {
-        videoViewUseCase.getKmdbUserCase(title).onEach { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    _data.value = MovieState(isLoading = true)
-                }
-                is Resource.Success -> {
-                    _data.value = MovieState(plot = result.data)
-                }
-                is Resource.Error -> {
-                    _data.value =
-                        MovieState(error = result.message ?: "An unexpected error occured")
-                }
-            }
-        }
+        }.launchIn(viewModelScope)
     }
 
     private var getMovieClipJob: Job? = null
@@ -111,6 +93,9 @@ class VideoViewModel @Inject constructor(
                         )
                     }
                 }
+            }
+            is VideoViewEvent.SetOrientation -> {
+
             }
         }
     }

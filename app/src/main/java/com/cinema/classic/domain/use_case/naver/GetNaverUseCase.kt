@@ -10,14 +10,14 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetNaverUseCase @Inject constructor(private val repository: MovieRepository) {
+class GetNaverUseCase (private val repository: MovieRepository) {
     operator fun invoke(title: String, year: Int): Flow<Resource<NaverMovie>> = flow {
         try {
             emit(Resource.Loading())
             val movie = repository.getMovieByNaver(title, year).items[0].toItem();
             emit(Resource.Success(movie))
         } catch (e: HttpException) {
-            emit(Resource.Error("An Expected error occured"))
+            emit(Resource.Error(e.message()))
         } catch (e: IOException) {
             emit(Resource.Error("Couldn't reach server. check your intract internet"))
         }

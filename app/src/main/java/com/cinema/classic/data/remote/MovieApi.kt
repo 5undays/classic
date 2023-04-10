@@ -18,7 +18,7 @@ interface MovieApi {
     ): KmdbDto
 
     @Headers(
-        "X-Naver-Client-Id: " + BuildConfig.NAVER_CLIENT_KEY,
+        "X-Naver-Client-Id: s6M3ZVY1UcNhy5FDF0KC",
         "X-Naver-Client-Secret: Y19lKc_Nv9"
     )
     @GET

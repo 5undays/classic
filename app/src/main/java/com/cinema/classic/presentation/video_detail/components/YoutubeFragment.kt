@@ -17,9 +17,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.You
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class YoutubeFragment : Fragment() {
@@ -40,7 +37,7 @@ class YoutubeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentYoutubeBinding.inflate(inflater, container, false)
         playstate = PlayerConstants.PlayerState.UNKNOWN
         return binding.root
@@ -88,14 +85,15 @@ class YoutubeFragment : Fragment() {
     }
 
     override fun onStop() {
-        CoroutineScope(Dispatchers.IO).launch {
-            //viewModel.insertMovieClip(movieClip = MovieClip(id, seconds, video_name, year))
-        }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            //viewModel.insertMovieClip(movieClip = MovieClip(id, seconds, video_name, year))
+//        }
         super.onStop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         binding.youtubePlayerView.release()
     }
 }

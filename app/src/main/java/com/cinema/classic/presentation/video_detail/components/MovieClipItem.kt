@@ -16,9 +16,9 @@ import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun PostItem(
+fun MovieClipItem(
     post: MovieClip,
-    onToggleFavorite: () -> Unit,
+    onToggleClip: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val sdf = SimpleDateFormat("HH:mm:ss")
@@ -49,7 +49,7 @@ fun PostItem(
                 color = Color.Black,
                 modifier = Modifier.wrapContentSize()
             )
-            BookmarkButton(onClick = onToggleFavorite)
+            BookmarkButton(onClick = onToggleClip)
         }
     }
 }
