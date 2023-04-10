@@ -16,11 +16,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Home(viewmodel)
-            viewmodel.lastClip.observe(this) { lastClip ->
-                if (lastClip != null) {
-                    viewmodel.getMovieDetail(lastClip.movie_name, lastClip.movie_year)
-                }
-            }
+//            viewmodel.lastClip.observe(this) { lastClip ->
+//                if (lastClip != null) {
+//                    viewmodel.getMovieDetail(lastClip.movie_name, lastClip.movie_year)
+//                }
+//            }
         }
     }
 }

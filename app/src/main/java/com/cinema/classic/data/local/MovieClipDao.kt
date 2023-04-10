@@ -4,19 +4,19 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.cinema.classic.data.local.dto.MovieClip
+import com.cinema.classic.domain.model.MovieClip
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MovieClipApi {
+interface MovieClipDao {
     @Query("SELECT * FROM movie_clip WHERE video_id = :videoId ORDER BY reg_date DESC")
-    fun get(videoId : String): Flow<List<MovieClip>>
+    fun getMovieClips(videoId : String): Flow<List<MovieClip>>
 
     @Insert
-    fun insert(movieClip: MovieClip)
+    fun insertMovieClip(movieClip: MovieClip)
 
     @Delete
-    suspend fun delete(movieClip: MovieClip)
+    suspend fun deleteMovieClip(movieClip: MovieClip)
 
     @Query("SELECT * FROM movie_clip ORDER BY reg_date DESC LIMIT 1")
     fun getLastVideo(): Flow<MovieClip>

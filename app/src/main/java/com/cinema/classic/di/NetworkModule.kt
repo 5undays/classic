@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class NetworkModule {
+object NetworkModule {
 
     @Singleton
     @Provides
@@ -28,9 +28,5 @@ class NetworkModule {
             .create(MovieApi::class.java)
     }
 
-    @Provides
-    @Singleton
-    fun provideCoinRepository(api: MovieApi): MovieRepository {
-        return MovieRepositoryImpl(api)
-    }
+
 }

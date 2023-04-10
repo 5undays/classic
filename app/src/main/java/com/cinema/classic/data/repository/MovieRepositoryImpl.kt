@@ -2,13 +2,15 @@ package com.cinema.classic.data.repository
 
 import com.cinema.classic.common.Constants
 import com.cinema.classic.data.remote.MovieApi
-import com.cinema.classic.data.remote.dto.*
+import com.cinema.classic.data.remote.dto.KmdbDto
+import com.cinema.classic.data.remote.dto.NaverDto
+import com.cinema.classic.data.remote.dto.Youtube
 import com.cinema.classic.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val movieApi: MovieApi
-) : MovieRepository{
+) : MovieRepository {
     override suspend fun getYoutubeVideoList(): Youtube {
         return movieApi.getYoutubeVideoList(Constants.BASE_URL)
     }

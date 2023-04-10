@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.cinema.classic.data.local.dto.MovieClip
 import com.cinema.classic.databinding.FragmentYoutubeBinding
 import com.cinema.classic.presentation.video_detail.VideoViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants

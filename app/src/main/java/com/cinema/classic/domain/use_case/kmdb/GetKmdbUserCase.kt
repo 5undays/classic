@@ -1,4 +1,4 @@
-package com.cinema.classic.domain.use_case.get_kmdb
+package com.cinema.classic.domain.use_case.kmdb
 
 import com.cinema.classic.common.Resource
 import com.cinema.classic.data.remote.dto.toItem
@@ -14,11 +14,12 @@ class GetKmdbUserCase @Inject constructor(private val repository: MovieRepositor
     operator fun invoke(title: String): Flow<Resource<Plot>> = flow {
         try {
             emit(Resource.Loading())
-            val result = repository.getMovieByKmdb(title).Data[0].Result[0].plots.plotDto[0].toItem()
+            val result =
+                repository.getMovieByKmdb(title).Data[0].Result[0].plots.plotDto[0].toItem()
             emit(Resource.Success(result))
         } catch (e: HttpException) {
             emit(Resource.Error(""))
-        } catch (e : IOException) {
+        } catch (e: IOException) {
             emit(Resource.Error(""))
         }
     }

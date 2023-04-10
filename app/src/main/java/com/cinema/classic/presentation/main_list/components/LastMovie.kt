@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import coil.compose.AsyncImage
 import com.cinema.classic.YoutubeActivity
-import com.cinema.classic.data.local.dto.MovieClip
+import com.cinema.classic.domain.model.MovieClip
 import com.cinema.classic.domain.model.NaverMovie
 
 @Composable

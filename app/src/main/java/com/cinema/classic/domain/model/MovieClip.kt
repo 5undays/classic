@@ -1,4 +1,4 @@
-package com.cinema.classic.data.local.dto
+package com.cinema.classic.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -12,3 +12,5 @@ data class MovieClip(
     @ColumnInfo(name = "movie_year") val movie_year: Int,
     @ColumnInfo(name = "reg_date") val reg_date: Calendar = Calendar.getInstance()
 )
+
+class InvalidMovieClipException(message: String) : Exception(message)

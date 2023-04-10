@@ -1,28 +1,28 @@
 package com.cinema.classic.di
 
-import android.content.Context
-import com.cinema.classic.data.local.MovieClipApi
-import com.cinema.classic.data.local.AppDatabase
+import android.app.Application
+import androidx.room.Room
+import com.cinema.classic.data.local.MovieClipDao
+import com.cinema.classic.data.local.MovieClipDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class DatabaseModule {
+object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
-        return AppDatabase.getInstance(context)
+    fun provideAppDatabase(app: Application): MovieClipDatabase {
+        return Room.databaseBuilder(
+            app,
+            MovieClipDatabase::class.java,
+            MovieClipDatabase.DATABASE_NAME
+        ).build()
     }
 
-    @Provides
-    fun providePlantDao(appDatabase: AppDatabase): MovieClipApi {
-        return appDatabase.movieClipDao()
-    }
 
 }

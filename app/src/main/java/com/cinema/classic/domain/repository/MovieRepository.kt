@@ -1,6 +1,8 @@
 package com.cinema.classic.domain.repository
 
-import com.cinema.classic.data.remote.dto.*
+import com.cinema.classic.data.remote.dto.KmdbDto
+import com.cinema.classic.data.remote.dto.NaverDto
+import com.cinema.classic.data.remote.dto.Youtube
 
 interface MovieRepository {
     suspend fun getYoutubeVideoList(): Youtube
