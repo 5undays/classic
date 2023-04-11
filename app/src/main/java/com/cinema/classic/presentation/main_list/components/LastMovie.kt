@@ -1,7 +1,5 @@
 package com.cinema.classic.presentation.main_list.components
 
-import android.content.Intent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -12,12 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import coil.compose.AsyncImage
-import com.cinema.classic.YoutubeActivity
 import com.cinema.classic.domain.model.MovieClip
 import com.cinema.classic.domain.model.NaverMovie
 

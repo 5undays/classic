@@ -5,7 +5,6 @@ import com.cinema.classic.domain.model.MovieClip
 sealed class VideoViewEvent {
     data class AddMovieClip(val movieClip: MovieClip) : VideoViewEvent()
     data class DeleteMovieClip(val movieClip: MovieClip) : VideoViewEvent()
-//    data class GetMovieClips(val videoId: String) : VideoViewEvent()
-
     data class SetOrientation(val orientation: Int) : VideoViewEvent()
+    data class GetCurrentTime(val currentTime: Float) : VideoViewEvent()
 }

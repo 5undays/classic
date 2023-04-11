@@ -5,7 +5,7 @@ import com.cinema.classic.domain.repository.MovieClipRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetMovieClips(private val repository: MovieClipRepository) {
-    suspend operator fun invoke(videoId: String): Flow<List<MovieClip>> {
+    operator fun invoke(videoId: String): Flow<List<MovieClip>> {
         return repository.getMovieClips(videoId = videoId)
     }
 }

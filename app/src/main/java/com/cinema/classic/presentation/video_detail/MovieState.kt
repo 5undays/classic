@@ -6,6 +6,8 @@ import com.cinema.classic.domain.model.MovieClip
 data class MovieState(
     val isLoading: Boolean = false,
     val movie: Kmdb? = null,
-    val movieClips:List<MovieClip> = emptyList(),
-    val error: String = ""
+    val movieClips: List<MovieClip> = emptyList(),
+    val error: String = "",
+    val orientation: Int = 0,
+    var currentTime: Float = 0f
 )

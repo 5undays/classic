@@ -14,8 +14,12 @@ class GetKmdbUserCase constructor(private val repository: MovieRepository) {
     operator fun invoke(title: String): Flow<Resource<Kmdb>> = flow {
         try {
             emit(Resource.Loading())
-            val result = repository.getMovieByKmdb(title).toItem()
-            emit(Resource.Success(result))
+            val result = repository.getMovieByKmdb(title)
+            if (result.TotalCount > 0) {
+                emit(Resource.Success(result.toItem()))
+            } else {
+                emit(Resource.Success(null))
+            }
         } catch (e: HttpException) {
             emit(Resource.Error(""))
         } catch (e: IOException) {
