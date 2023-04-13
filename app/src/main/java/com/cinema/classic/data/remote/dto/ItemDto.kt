@@ -12,12 +12,17 @@ data class ItemDto(
 
 fun ItemDto.toItem(): Movie {
     val title = snippet.title.split("/")[0].split("(")
-    val year: Int = title[1].replace(")", "").trim().toInt()
+    var year: Int = 1900
+    var titleEnglish = "";
+//    if (title.size > 2) {
+//        titleEnglish = title[1];
+//        year = title[1].replace(")", "").trim().replace("[^0-9]".toRegex(), "").toInt()
+//    }
     return Movie(
         title = title[0],
         description = snippet.description,
         thumbnail = snippet.thumbnails.high.url,
-        title_english = title[1],
+        title_english = titleEnglish,
         videoId = id.videoId,
         year = year
     )

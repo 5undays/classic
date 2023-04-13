@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class Youtube(
     @field:SerializedName("kind") val kind: String,
     @field:SerializedName("etag") val etag: String,
+    @field:SerializedName("prevPageToken") val prevPageToken: String,
     @field:SerializedName("nextPageToken") val nextPageToken: String,
     @field:SerializedName("regionCode") val regionCode: String,
     @field:SerializedName("pageInfo") val pageInfo: PageInfo,

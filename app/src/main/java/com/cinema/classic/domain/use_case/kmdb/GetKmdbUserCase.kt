@@ -3,7 +3,6 @@ package com.cinema.classic.domain.use_case.kmdb
 import com.cinema.classic.common.Resource
 import com.cinema.classic.data.remote.dto.toItem
 import com.cinema.classic.domain.model.Kmdb
-import com.cinema.classic.domain.model.Movie
 import com.cinema.classic.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

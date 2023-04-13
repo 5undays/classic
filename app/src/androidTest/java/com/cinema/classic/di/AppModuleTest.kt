@@ -1,14 +1,9 @@
 package com.cinema.classic.di
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
 import com.cinema.classic.data.local.MovieClipDatabase
 import com.cinema.classic.data.remote.MovieApi
 import com.cinema.classic.data.repository.MovieClipRepositoryImpl
 import com.cinema.classic.data.repository.MovieRepositoryImpl
-import com.cinema.classic.data.repository.YotubePagingSource
-import com.cinema.classic.domain.model.Movie
 import com.cinema.classic.domain.repository.MovieClipRepository
 import com.cinema.classic.domain.repository.MovieRepository
 import com.cinema.classic.domain.use_case.MainUseCase
@@ -26,9 +21,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+
 @InstallIn(SingletonComponent::class)
 @Module
-object AppModule {
+object AppModuleTest {
 
     @Provides
     @Singleton
@@ -42,16 +38,18 @@ object AppModule {
         return MovieRepositoryImpl(api)
     }
 
-//    fun provideMovieUseCase(
-//        movieClipRepository: MovieClipRepository,
-//        movieRepository: MovieRepository
-//    ): MainUseCase {
-//        return MainUseCase(
-//            getNaverUseCase = GetNaverUseCase(movieRepository),
-//            getLastMovieClip = GetLastMovieClip(movieClipRepository),
-//            getYoutubeListUseCase = GetYoutubeListUseCase(movieRepository)
-//        )
-//    }
+    @Provides
+    @Singleton
+    fun provideMovieUseCase(
+        movieClipRepository: MovieClipRepository,
+        movieRepository: MovieRepository
+    ): MainUseCase {
+        return MainUseCase(
+            getNaverUseCase = GetNaverUseCase(movieRepository),
+            getLastMovieClip = GetLastMovieClip(movieClipRepository),
+            getYoutubeListUseCase = GetYoutubeListUseCase(movieRepository)
+        )
+    }
 
     @Provides
     @Singleton

@@ -18,7 +18,7 @@ interface MovieApi {
     ): KmdbDto
 
     @Headers(
-        "X-Naver-Client-Id: s6M3ZVY1UcNhy5FDF0KC",
+        "X-Naver-Client-Id: " + BuildConfig.NAVER_CLIENT_KEY,
         "X-Naver-Client-Secret: Y19lKc_Nv9"
     )
     @GET
@@ -36,7 +36,9 @@ interface MovieApi {
         @Query("channelId") channelId: String = "UCvH6u_Qzn5RQdz9W198umDw",
         @Query("order") order: String = "date",
         @Query("safeSearch") safeSearch: String = "strict",
-        @Query("key") key: String = BuildConfig.GOOGLE_API_KEY
+        @Query("key") key: String = BuildConfig.GOOGLE_API_KEY,
+        @Query("pageToken") pageToken: String? = "0",
+        @Query("maxResults") maxResults: Int = 5
     ): Youtube
 
 }
