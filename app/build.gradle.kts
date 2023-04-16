@@ -47,6 +47,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.5.6")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
+    testImplementation("junit:junit:4.12")
     debugImplementation("androidx.compose.ui:ui-tooling:1.4.1")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -78,6 +79,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager:0.28.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.28.0")
     implementation("androidx.paging:paging-compose:1.0.0-alpha18")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.44")
+    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.0-alpha01")
 }
 
 fun getApiKey(propertyKey: String): String {

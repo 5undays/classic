@@ -7,10 +7,10 @@ import androidx.room.TypeConverters
 import com.cinema.classic.domain.model.MovieClip
 import java.util.*
 
-@Database(entities = [MovieClip::class], version = 1)
+@Database(entities = [MovieClip::class],[YoutubeEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class MovieClipDatabase : RoomDatabase() {
-
+    abstract val youtubeDao: YoutubeDao
 
     abstract val movieClipDao: MovieClipDao
 
