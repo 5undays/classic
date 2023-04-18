@@ -1,53 +1,57 @@
 package com.cinema.classic.presentation.video_detail.components
 
+import android.view.View
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cinema.classic.presentation.video_detail.VideoViewEvent
 import com.cinema.classic.presentation.video_detail.VideoViewModel
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.DefaultPlayerUiController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
 
 @Composable
 fun YoutubeScreen(
     videoId: String,
-    modifier: Modifier = Modifier,
     viewModel: VideoViewModel = hiltViewModel()
 ) {
-    val ctx = LocalContext.current
-    val startSeconds = 0f;
-    AndroidView(factory = {
-        var view = YouTubePlayerView(it)
-        val fragment = view.addYouTubePlayerListener(
-            object : AbstractYouTubePlayerListener() {
-                override fun onReady(youTubePlayer: YouTubePlayer) {
-                    super.onReady(youTubePlayer)
-                    view.setCustomPlayerUi(DefaultPlayerUiController(view, youTubePlayer).rootView)
-                    youTubePlayer.loadVideo(videoId, startSeconds)
-                }
+    val options: IFramePlayerOptions =
+        IFramePlayerOptions.Builder().controls(0).fullscreen(1).build()
+    var view = YouTubePlayerView(LocalContext.current)
+    view.enableAutomaticInitialization = false
+    val listener = object : AbstractYouTubePlayerListener() {
+        override fun onReady(youTubePlayer: YouTubePlayer) {
+            super.onReady(youTubePlayer)
+            view.setCustomPlayerUi(DefaultPlayerUiController(view, youTubePlayer).rootView)
+            youTubePlayer.loadVideo(videoId, 0f)
+//            if (viewModel.data.value.movieClips.isNotEmpty()) {
+//                youTubePlayer.seekTo(viewModel.data.value.movieClips.last().time)
+//            } else {
+//
+//            }
+        }
 
-                override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
-                    super.onCurrentSecond(youTubePlayer, second)
-                    viewModel.onEvent(VideoViewEvent.GetCurrentTime(second))
-                }
-            }
-        )
-        view.addFullScreenListener(object : YouTubePlayerFullScreenListener {
-            override fun onYouTubePlayerEnterFullScreen() {
-                //viewModel.onEvent(VideoViewEvent.SetOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE))
-            }
+        override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
+            super.onCurrentSecond(youTubePlayer, second)
+            viewModel.onEvent(VideoViewEvent.GetCurrentTime(second))
 
-            override fun onYouTubePlayerExitFullScreen() {
-                //viewModel.onEvent(VideoViewEvent.SetOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED))
-            }
-        })
-        view
+        }
+    }
+    view.addFullscreenListener(object : FullscreenListener {
+        override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onExitFullscreen() {
+            TODO("Not yet implemented")
+        }
     })
+    view.initialize(listener, options)
+    AndroidView(factory = { view })
 }
 
 

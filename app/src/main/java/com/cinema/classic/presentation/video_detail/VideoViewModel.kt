@@ -13,11 +13,7 @@ import com.cinema.classic.domain.model.MovieClip
 import com.cinema.classic.domain.use_case.VideoViewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -38,50 +34,41 @@ class VideoViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
-        getMovieDetail(title)
-        getMovieClips(videoId)
+        collectFlow()
     }
 
-    private fun getMovieDetail(title: String) {
-        videoViewUseCase.getKmdbUserCase(title).onEach { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    _data.value = MovieState(isLoading = true)
-                }
-                is Resource.Success -> {
-                    if (result.data == null) {
-                        _data.value = data.value.copy(
-                            movie = Kmdb(
-                                title = title,
-                                thumbnail = "",
-                                director = "",
-                                year = year,
-                                actors = "",
-                                plot = ""
+    private fun collectFlow() {
+        _data.value = MovieState(
+            movie = Kmdb(
+                title = title,
+                thumbnail = "",
+                director = "",
+                year = year,
+                actors = "",
+                plot = ""
+            )
+        )
+        videoViewUseCase.getKmdbUserCase(title).flatMapMerge { result ->
+            videoViewUseCase.getMovieClips(videoId).onEach { value ->
+                when (result) {
+                    is Resource.Loading -> {
+                        _data.value = data.value.copy(movieClips = value)
+                    }
+                    is Resource.Success -> {
+                        if (result.data != null) {
+                            _data.value = data.value.copy(movie = result.data)
+                        }
+                    }
+                    is Resource.Error -> {
+                        _data.value =
+                            data.value.copy(
+                                error = result.message ?: "An unexpected error occured",
+                                isLoading = false
                             )
-                        )
-                    } else {
-                        _data.value = data.value.copy(movie = result.data, isLoading = false)
                     }
                 }
-                is Resource.Error -> {
-                    _data.value =
-                        data.value.copy(
-                            error = result.message ?: "An unexpected error occured",
-                            isLoading = false
-                        )
-                }
             }
-        }.launchIn(viewModelScope)
-    }
-
-    private var getMovieClipJob: Job? = null
-    private fun getMovieClips(videoId: String) {
-        getMovieClipJob?.cancel()
-        getMovieClipJob = videoViewUseCase.getMovieClips(videoId).onEach { result ->
-            _data.value = data.value.copy(movieClips = result)
-        }.launchIn(viewModelScope)
-
+        }.buffer().launchIn(viewModelScope)
     }
 
     fun onEvent(event: VideoViewEvent) {
@@ -106,7 +93,7 @@ class VideoViewModel @Inject constructor(
                 }
             }
             is VideoViewEvent.SetOrientation -> {
-                //activity?.requestedOrientation = event.orientation
+                ///activity?.requestedOrientation = event.orientation
             }
             is VideoViewEvent.GetCurrentTime -> {
                 _data.value.currentTime = event.currentTime

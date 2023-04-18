@@ -10,9 +10,9 @@ interface YoutubeDao {
     @Upsert
     suspend fun upsertAll(youtubeList: List<YoutubeEntity>)
 
-    @Query("SELECT * FROM youtubeentity")
+    @Query("SELECT * FROM youtube_entity")
     fun pagingSource(): PagingSource<Int, YoutubeEntity>
 
-    @Query("DELETE FROM youtubeentity")
+    @Query("DELETE FROM youtube_entity")
     suspend fun clearAll()
 }

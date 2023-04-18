@@ -1,20 +1,20 @@
 package com.cinema.classic.data.local
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.cinema.classic.data.remote.dto.ItemDto
 import com.cinema.classic.domain.model.Movie
 
-@Entity
+@Entity(tableName = "youtube_entity")
 data class YoutubeEntity (
     @PrimaryKey
-    //val id : Int,
-    val videoId: String,
-    val title: String,
-    val year: Int,
-    val title_english: String,
-    val thumbnail: String,
-    val description : String,
+    @ColumnInfo(name = "video_id")val videoId: String,
+    @ColumnInfo(name = "title")val title: String,
+    @ColumnInfo(name = "year")val year: Int,
+    @ColumnInfo(name = "title_english")val title_english: String,
+    @ColumnInfo(name = "thumbnail")val thumbnail: String,
+    @ColumnInfo(name = "description")val description : String,
 )
 
 fun ItemDto.toItem(): YoutubeEntity {
