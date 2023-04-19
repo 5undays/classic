@@ -2,7 +2,6 @@ package com.cinema.classic.di
 
 import android.app.Application
 import androidx.room.Room
-import com.cinema.classic.data.local.MovieClipDao
 import com.cinema.classic.data.local.MovieClipDatabase
 import dagger.Module
 import dagger.Provides

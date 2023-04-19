@@ -27,18 +27,8 @@ class VideoViewModel @Inject constructor(
     val year: Int = checkNotNull(handle["year"])
     val title: String = checkNotNull(handle["title"])
 
-    private val _data = mutableStateOf(MovieState())
-    val data: State<MovieState> get() = _data
-
-    private val _eventFlow = MutableSharedFlow<UiEvent>()
-    val eventFlow = _eventFlow.asSharedFlow()
-
-    init {
-        collectFlow()
-    }
-
-    private fun collectFlow() {
-        _data.value = MovieState(
+    private val _data = mutableStateOf(
+        MovieState(
             movie = Kmdb(
                 title = title,
                 thumbnail = "",
@@ -48,27 +38,38 @@ class VideoViewModel @Inject constructor(
                 plot = ""
             )
         )
-        videoViewUseCase.getKmdbUserCase(title).flatMapMerge { result ->
-            videoViewUseCase.getMovieClips(videoId).onEach { value ->
-                when (result) {
-                    is Resource.Loading -> {
-                        _data.value = data.value.copy(movieClips = value)
-                    }
-                    is Resource.Success -> {
-                        if (result.data != null) {
-                            _data.value = data.value.copy(movie = result.data)
-                        }
-                    }
-                    is Resource.Error -> {
-                        _data.value =
-                            data.value.copy(
-                                error = result.message ?: "An unexpected error occured",
-                                isLoading = false
-                            )
+    )
+    val data: State<MovieState> get() = _data
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
+    private val kmdb: Flow<Resource<Kmdb>> = videoViewUseCase.getKmdbUserCase(title)
+    private val movieClips: Flow<List<MovieClip>> = videoViewUseCase.getMovieClips(videoId)
+
+    init {
+        collectFlow()
+    }
+
+    private fun collectFlow() {
+        combine(kmdb, movieClips) { kmdb, movieClips ->
+            _data.value = data.value.copy(movieClips = movieClips)
+
+            when (kmdb) {
+                is Resource.Success -> {
+                    if (kmdb.data != null) {
+                        _data.value = data.value.copy(movie = kmdb.data)
                     }
                 }
+                is Resource.Error -> {
+                    _data.value =
+                        data.value.copy(
+                            error = kmdb.message ?: "An unexpected error occured",
+                            isLoading = false
+                        )
+                }
             }
-        }.buffer().launchIn(viewModelScope)
+        }.launchIn(viewModelScope)
     }
 
     fun onEvent(event: VideoViewEvent) {

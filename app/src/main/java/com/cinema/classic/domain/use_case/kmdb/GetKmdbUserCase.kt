@@ -12,7 +12,7 @@ import java.io.IOException
 class GetKmdbUserCase constructor(private val repository: MovieRepository) {
     operator fun invoke(title: String): Flow<Resource<Kmdb>> = flow {
         try {
-            emit(Resource.Loading())
+//            emit(Resource.Loading())
             val result = repository.getMovieByKmdb(title)
             if (result.TotalCount > 0) {
                 emit(Resource.Success(result.toItem()))

@@ -12,7 +12,7 @@ import java.io.IOException
 class GetNaverUseCase (private val repository: MovieRepository) {
     operator fun invoke(title: String, year: Int): Flow<Resource<NaverMovie>> = flow {
         try {
-            emit(Resource.Loading())
+//            emit(Resource.Loading())
             val movie = repository.getMovieByNaver(title, year).items[0].toItem();
             emit(Resource.Success(movie))
         } catch (e: HttpException) {

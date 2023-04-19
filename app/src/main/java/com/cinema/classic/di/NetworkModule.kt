@@ -2,8 +2,6 @@ package com.cinema.classic.di
 
 import com.cinema.classic.common.Constants
 import com.cinema.classic.data.remote.MovieApi
-import com.cinema.classic.data.repository.MovieRepositoryImpl
-import com.cinema.classic.domain.repository.MovieRepository
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides

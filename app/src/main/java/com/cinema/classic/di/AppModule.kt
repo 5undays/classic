@@ -1,25 +1,17 @@
 package com.cinema.classic.di
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
 import com.cinema.classic.data.local.MovieClipDatabase
 import com.cinema.classic.data.remote.MovieApi
 import com.cinema.classic.data.repository.MovieClipRepositoryImpl
 import com.cinema.classic.data.repository.MovieRepositoryImpl
-import com.cinema.classic.data.repository.YotubePagingSource
-import com.cinema.classic.domain.model.Movie
 import com.cinema.classic.domain.repository.MovieClipRepository
 import com.cinema.classic.domain.repository.MovieRepository
-import com.cinema.classic.domain.use_case.MainUseCase
 import com.cinema.classic.domain.use_case.VideoViewUseCase
 import com.cinema.classic.domain.use_case.kmdb.GetKmdbUserCase
 import com.cinema.classic.domain.use_case.movie_clip.AddMovieClip
 import com.cinema.classic.domain.use_case.movie_clip.DeleteMovieClip
-import com.cinema.classic.domain.use_case.movie_clip.GetLastMovieClip
 import com.cinema.classic.domain.use_case.movie_clip.GetMovieClips
 import com.cinema.classic.domain.use_case.naver.GetNaverUseCase
-import com.cinema.classic.domain.use_case.youtube.GetYoutubeListUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
