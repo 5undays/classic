@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(
     val flow = Pager(
         PagingConfig(pageSize = 10)
     ) {
-        YotubePagingSource(mainUseCase.getYoutubeListUseCase)
+        YoutubePagingSource(mainUseCase.getYoutubeListUseCase)
     }.flow.cachedIn(viewModelScope)
 
     private val _lastVideo = MutableStateFlow(mainUseCase.getLastMovieClip)

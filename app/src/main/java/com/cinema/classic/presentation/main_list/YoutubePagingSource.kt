@@ -9,7 +9,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class YotubePagingSource @Inject constructor(
+class YoutubePagingSource @Inject constructor(
     private val getYoutubeListUseCase: GetYoutubeListUseCase
 ) : PagingSource<String, Movie>() {
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Movie> {
