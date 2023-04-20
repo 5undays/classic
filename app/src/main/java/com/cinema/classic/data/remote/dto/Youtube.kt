@@ -14,11 +14,6 @@ data class Youtube(
 )
 
 
-object YoutubeRepo {
-    fun getFeaturedPost(): ItemDto = sample
-}
-
-
 private val sample = ItemDto(
     kind = "youtube#searchResult", etag = "rbrkxpxGxA745cw2mj7eqMWjwL8", id = Id(
         kind = "youtube#video", videoId = "2j7uys48wwc"
