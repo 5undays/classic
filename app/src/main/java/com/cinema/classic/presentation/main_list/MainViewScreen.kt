@@ -5,18 +5,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
+import com.cinema.classic.domain.model.Movie
 import com.cinema.classic.presentation.main_list.components.AppBar
 import com.cinema.classic.presentation.main_list.components.MovieItem
 import com.cinema.classic.presentation.util.Screen
 
 @Composable
-fun MainScreen(navController: NavController, viewModel: MainViewModel = hiltViewModel()) {
-    val data = viewModel.flow.collectAsLazyPagingItems()
-//    val lastVideo by viewModel.lastVideo.collectas()
+fun MainScreen(navController: NavController
+               , mainVideos: LazyPagingItems<Movie>) {
 
     Scaffold(
         topBar = { AppBar() }
@@ -28,7 +27,7 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = hiltView
 //            }
 //        }
         LazyColumn(contentPadding = innerPadding) {
-            items(data) { movie ->
+            items(mainVideos) { movie ->
                 if (movie != null) {
                     MovieItem(
                         movie = movie,

@@ -1,20 +1,21 @@
 package com.cinema.classic
 
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
 import androidx.fragment.app.FragmentActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.cinema.classic.presentation.main_list.MainScreen
+import com.cinema.classic.presentation.main_list.MainViewModel
 import com.cinema.classic.presentation.ui.theme.ClassicTheme
 import com.cinema.classic.presentation.util.Screen
+import com.cinema.classic.presentation.video_detail.VideoViewModel
 import com.cinema.classic.presentation.video_detail.VideoViewScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +38,9 @@ class MainActivity : FragmentActivity() {
                         startDestination = Screen.MainScreen.route
                     ) {
                         composable(route = Screen.MainScreen.route) {
-                            MainScreen(navController)
+                            val viewModel = hiltViewModel<MainViewModel>()
+                            val mainVideos = viewModel.mainVideos.collectAsLazyPagingItems()
+                            MainScreen(navController, mainVideos)
                         }
                         composable(route = Screen.VideoViewScreen.route + "?year={year}&title={title}&videoId={videoId}",
                             arguments = listOf(
@@ -52,7 +55,17 @@ class MainActivity : FragmentActivity() {
                                     defaultValue = ""
                                 }
                             )) {
-                            VideoViewScreen(navController)
+                            val viewModel = hiltViewModel<VideoViewModel>()
+                            val videoId = viewModel.videoId
+                            val movie = viewModel.data.value.movie
+                            val movieClips = viewModel.data.value.movieClips
+                            VideoViewScreen(
+                                navController = navController,
+                                movie = movie,
+                                videoId = videoId,
+                                movieClips = movieClips,
+                                onEvent = viewModel::onEvent
+                            )
                         }
                     }
                 }

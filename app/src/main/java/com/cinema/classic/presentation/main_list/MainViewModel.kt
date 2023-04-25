@@ -15,7 +15,7 @@ class MainViewModel @Inject constructor(
     private val mainUseCase: MainUseCase
 ) : ViewModel() {
 
-    val flow = Pager(
+    val mainVideos = Pager(
         PagingConfig(pageSize = 10)
     ) {
         YoutubePagingSource(mainUseCase.getYoutubeListUseCase)

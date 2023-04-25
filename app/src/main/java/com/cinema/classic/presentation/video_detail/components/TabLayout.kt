@@ -10,8 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.cinema.classic.domain.model.Kmdb
+import com.cinema.classic.domain.model.MovieClip
 import com.cinema.classic.presentation.video_detail.VideoViewEvent
-import com.cinema.classic.presentation.video_detail.VideoViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -22,8 +23,7 @@ val pages = listOf("PLOT", "BOOKMARK")
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TabLayout(viewModel: VideoViewModel) {
-    val data = viewModel.data.value
+fun TabLayout(movie: Kmdb, movieClips: List<MovieClip>, onEvent: (VideoViewEvent) -> Unit) {
 
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -61,22 +61,22 @@ fun TabLayout(viewModel: VideoViewModel) {
                         .fillMaxSize()
                         .verticalScroll(scrollState)
                 ) {
-                    data.movie?.let {
+                    movie?.let {
                         Text(
                             modifier = Modifier
                                 .wrapContentSize()
                                 .padding(10.dp),
-                            text = data.movie.plot,
+                            text = movie.plot,
                             style = MaterialTheme.typography.body2
                         )
                     }
                 }
             } else {
                 LazyColumn(modifier = Modifier.fillMaxHeight()) {
-                    data.movieClips.let {
-                        items(data.movieClips) { post ->
+                    movieClips.let {
+                        items(movieClips) { post ->
                             MovieClipItem(post = post, onToggleClip = {
-                                viewModel.onEvent(VideoViewEvent.DeleteMovieClip(post))
+                                onEvent(VideoViewEvent.DeleteMovieClip(post))
                             })
                         }
                     }

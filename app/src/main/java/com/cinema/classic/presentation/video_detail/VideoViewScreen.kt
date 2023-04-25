@@ -5,17 +5,23 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.cinema.classic.domain.model.Kmdb
+import com.cinema.classic.domain.model.MovieClip
 import com.cinema.classic.presentation.video_detail.components.MovieDetail
 import com.cinema.classic.presentation.video_detail.components.TabLayout
 import com.cinema.classic.presentation.video_detail.components.YoutubeScreen
 
 
 @Composable
-fun VideoViewScreen(navController: NavController, viewModel: VideoViewModel = hiltViewModel()) {
-    val state = viewModel.data.value
-    state.movie?.let {
+fun VideoViewScreen(
+    navController: NavController,
+    movie: Kmdb?,
+    videoId: String,
+    movieClips: List<MovieClip>,
+    onEvent: (VideoViewEvent) -> Unit
+) {
+    movie?.let {
         Column {
             Box(
                 modifier = Modifier
@@ -25,7 +31,7 @@ fun VideoViewScreen(navController: NavController, viewModel: VideoViewModel = hi
                         else Modifier.height(IntrinsicSize.Min)
                     )
             ) {
-                YoutubeScreen(videoId = viewModel.videoId)
+                YoutubeScreen(videoId = videoId)
 //                YoutubePlayerView(
 //                    movie.title,
 //                    viewModel.videoId.toString(),
@@ -38,14 +44,14 @@ fun VideoViewScreen(navController: NavController, viewModel: VideoViewModel = hi
                     .height(IntrinsicSize.Min)
                     .fillMaxWidth()
             ) {
-                MovieDetail(it)
+                MovieDetail(movie)
             }
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth()
             ) {
-                TabLayout(viewModel = viewModel)
+                TabLayout(movie = movie, movieClips = movieClips, onEvent = onEvent)
             }
         }
     }
