@@ -13,11 +13,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.cinema.classic.domain.model.MovieClip
 import com.cinema.classic.domain.model.NaverMovie
 
 @Composable
-fun LastMovie(movie: NaverMovie, clip: MovieClip) {
+fun LastMovie(movie: NaverMovie) {
     Card(
         modifier = Modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
@@ -32,7 +31,7 @@ fun LastMovie(movie: NaverMovie, clip: MovieClip) {
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
         ) {
-            Text(text = clip.movie_name, fontWeight = FontWeight.ExtraBold, color = Color.White)
+            Text(text = movie.title, fontWeight = FontWeight.ExtraBold, color = Color.White)
         }
     }
 }
