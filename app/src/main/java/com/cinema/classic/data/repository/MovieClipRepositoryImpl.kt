@@ -21,7 +21,7 @@ class MovieClipRepositoryImpl @Inject constructor(
         movieClipDao.deleteMovieClip(movieClip)
     }
 
-    override suspend fun getLastVideo(): Flow<MovieClip> {
+    override  fun getLastVideo(): Flow<MovieClip> {
         return movieClipDao.getLastVideo()
     }
 }

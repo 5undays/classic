@@ -108,10 +108,11 @@ class VideoViewModel @Inject constructor(
                 VideoViewEvent.AddMovieClip(
                     MovieClip(
                         video_id = videoId,
+                        thumbnail = _data.value.movie!!.thumbnail,
                         movie_name = _data.value.movie!!.title,
                         movie_year = _data.value.movie!!.year,
                         reg_date = Calendar.getInstance(),
-                        time = _data.value.currentTime
+                        time = _data.value.currentTime,
                     )
                 )
             )

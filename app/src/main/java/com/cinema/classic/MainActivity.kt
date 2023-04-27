@@ -1,10 +1,15 @@
 package com.cinema.classic
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
+import androidx.compose.runtime.collectAsState
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,9 +23,11 @@ import com.cinema.classic.presentation.util.Screen
 import com.cinema.classic.presentation.video_detail.VideoViewModel
 import com.cinema.classic.presentation.video_detail.VideoViewScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +47,8 @@ class MainActivity : FragmentActivity() {
                         composable(route = Screen.MainScreen.route) {
                             val viewModel = hiltViewModel<MainViewModel>()
                             val mainVideos = viewModel.mainVideos.collectAsLazyPagingItems()
-                            MainScreen(navController, mainVideos)
+                            val movieClips = viewModel.lastClip.collectAsState()
+                            MainScreen(navController, mainVideos, movieClips.value)
                         }
                         composable(route = Screen.VideoViewScreen.route + "?year={year}&title={title}&videoId={videoId}",
                             arguments = listOf(

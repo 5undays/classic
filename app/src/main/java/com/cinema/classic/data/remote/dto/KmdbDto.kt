@@ -159,7 +159,7 @@ data class CommCode(
 fun KmdbDto.toItem(): Kmdb {
     return Kmdb(
         title = KMAQuery,
-        thumbnail = Data[0].Result[0].posters,
+        thumbnail = Data[0].Result[0].posters.replace("http","https"),
         year = Data[0].Result[0].prodYear.toInt(),
         plot = Data[0].Result[0].plots.plot[0].plotText,
         actors = Data[0].Result[0].actors.actor[0].actorNm,

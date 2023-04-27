@@ -1,32 +1,47 @@
 package com.cinema.classic.presentation.main_list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
+import com.cinema.classic.R
 import com.cinema.classic.domain.model.Movie
+import com.cinema.classic.domain.model.MovieClip
+import com.cinema.classic.domain.model.NaverMovie
 import com.cinema.classic.presentation.main_list.components.AppBar
+import com.cinema.classic.presentation.main_list.components.Header
+import com.cinema.classic.presentation.main_list.components.LastMovie
 import com.cinema.classic.presentation.main_list.components.MovieItem
 import com.cinema.classic.presentation.util.Screen
 
 @Composable
-fun MainScreen(navController: NavController
-               , mainVideos: LazyPagingItems<Movie>) {
+fun MainScreen(
+    navController: NavController, mainVideos: LazyPagingItems<Movie>, lastVideo: MovieClip?
+//                , lastVideo: NaverMovie?
+) {
 
     Scaffold(
         topBar = { AppBar() }
     ) { innerPadding ->
-//        lastVideo?.let {
-//            Column(modifier = Modifier.fillMaxWidth()) {
-//                Header(text = stringResource(R.string.popular))
-//                LastMovie(lastVideo.movie, lastVideo.invoke())
-//            }
-//        }
         LazyColumn(contentPadding = innerPadding) {
+//            lastVideo?.let {
+//                item {
+//                    Header(text = stringResource(R.string.popular))
+//                }
+//                item {
+//                    LastMovie(lastVideo, navController)
+//                }
+//            }
+            item {
+                Header(stringResource(R.string.korean_film))
+            }
             items(mainVideos) { movie ->
                 if (movie != null) {
                     MovieItem(

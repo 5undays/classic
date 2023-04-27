@@ -10,7 +10,8 @@ data class MovieClip(
     @ColumnInfo(name = "time") val time: Float = 0f,
     @ColumnInfo(name = "movie_name") val movie_name: String = "",
     @ColumnInfo(name = "movie_year") val movie_year: Int,
-    @ColumnInfo(name = "reg_date") val reg_date: Calendar = Calendar.getInstance()
+    @ColumnInfo(name = "reg_date") val reg_date: Calendar = Calendar.getInstance(),
+    @ColumnInfo(name = "thumbnail") val thumbnail: String = "",
 )
 
 class InvalidMovieClipException(message: String) : Exception(message)

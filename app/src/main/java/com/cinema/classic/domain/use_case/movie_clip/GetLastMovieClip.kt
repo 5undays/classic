@@ -5,7 +5,7 @@ import com.cinema.classic.domain.repository.MovieClipRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetLastMovieClip(private val repository: MovieClipRepository) {
-    suspend operator fun invoke(): Flow<MovieClip> {
+     operator fun invoke(): Flow<MovieClip> {
         return repository.getLastVideo()
     }
 }

@@ -15,7 +15,7 @@ abstract class MovieClipDatabase : RoomDatabase() {
     abstract val movieClipDao: MovieClipDao
 
     companion object {
-        const val DATABASE_NAME = "clip_db"
+        const val DATABASE_NAME = "movie_db"
     }
 }
 

@@ -1,13 +1,18 @@
 package com.cinema.classic.presentation.main_list
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.cinema.classic.common.Resource
+import com.cinema.classic.domain.model.MovieClip
 import com.cinema.classic.domain.use_case.MainUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,27 +26,16 @@ class MainViewModel @Inject constructor(
         YoutubePagingSource(mainUseCase.getYoutubeListUseCase)
     }.flow.cachedIn(viewModelScope)
 
-    private val _lastVideo = MutableStateFlow(mainUseCase.getLastMovieClip)
-    val lastVideo = _lastVideo
 
-//    private val _data = mutableStateOf(MainViewState())
-//    val data: State<MainViewState> = _data
+    private val _data = mutableStateOf(MainViewState())
+    val data: State<MainViewState> = _data
 
+    private val _lastClip: Flow<MovieClip> = mainUseCase.getLastMovieClip()
 
-//    fun getMovieDetail(title: String, year: Int) {
-//        mainUseCase.getNaverUseCase(title, year).onEach { result ->
-//            when (result) {
-//                is Resource.Loading -> {
-//                    _data.value = MainViewState(isLoading = true)
-//                }
-//                is Resource.Success -> {
-//                    _data.value = MainViewState(movie = result.data)
-//                }
-//                is Resource.Error -> {
-//                    _data.value =
-//                        MainViewState(error = result.message ?: "An unexpected error occured")
-//                }
-//            }
-//        }
-//    }
+    val lastClip: StateFlow<MovieClip?> = _lastClip.stateIn(
+        scope = viewModelScope,
+        started = WhileSubscribed(5000),
+        initialValue = _data.value.lastClip
+    )
+
 }

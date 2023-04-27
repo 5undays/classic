@@ -11,5 +11,5 @@ interface MovieClipRepository {
 
     suspend fun deleteMovieClip(movieClip: MovieClip)
 
-    suspend fun getLastVideo(): Flow<MovieClip>
+     fun getLastVideo(): Flow<MovieClip>
 }
