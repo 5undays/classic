@@ -31,14 +31,14 @@ fun MainScreen(
         topBar = { AppBar() }
     ) { innerPadding ->
         LazyColumn(contentPadding = innerPadding) {
-//            lastVideo?.let {
-//                item {
-//                    Header(text = stringResource(R.string.popular))
-//                }
-//                item {
-//                    LastMovie(lastVideo, navController)
-//                }
-//            }
+            lastVideo?.let {
+                item {
+                    Header(text = stringResource(R.string.popular))
+                }
+                item {
+                    LastMovie(lastVideo, navController)
+                }
+            }
             item {
                 Header(stringResource(R.string.korean_film))
             }
