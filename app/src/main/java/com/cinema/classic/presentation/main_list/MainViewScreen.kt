@@ -1,8 +1,6 @@
 package com.cinema.classic.presentation.main_list
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,7 +12,6 @@ import androidx.paging.compose.items
 import com.cinema.classic.R
 import com.cinema.classic.domain.model.Movie
 import com.cinema.classic.domain.model.MovieClip
-import com.cinema.classic.domain.model.NaverMovie
 import com.cinema.classic.presentation.main_list.components.AppBar
 import com.cinema.classic.presentation.main_list.components.Header
 import com.cinema.classic.presentation.main_list.components.LastMovie
@@ -24,7 +21,6 @@ import com.cinema.classic.presentation.util.Screen
 @Composable
 fun MainScreen(
     navController: NavController, mainVideos: LazyPagingItems<Movie>, lastVideo: MovieClip?
-//                , lastVideo: NaverMovie?
 ) {
 
     Scaffold(

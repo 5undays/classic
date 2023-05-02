@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -47,7 +48,7 @@ class MainActivity : FragmentActivity() {
                         composable(route = Screen.MainScreen.route) {
                             val viewModel = hiltViewModel<MainViewModel>()
                             val mainVideos = viewModel.mainVideos.collectAsLazyPagingItems()
-                            val movieClips = viewModel.lastClip.collectAsState()
+                            val movieClips = viewModel.lastClip.observeAsState()
                             MainScreen(navController, mainVideos, movieClips.value)
                         }
                         composable(route = Screen.VideoViewScreen.route + "?year={year}&title={title}&videoId={videoId}",

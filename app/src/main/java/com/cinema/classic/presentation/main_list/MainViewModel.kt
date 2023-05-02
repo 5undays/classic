@@ -3,6 +3,7 @@ package com.cinema.classic.presentation.main_list
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -30,12 +31,12 @@ class MainViewModel @Inject constructor(
     private val _data = mutableStateOf(MainViewState())
     val data: State<MainViewState> = _data
 
-    private val _lastClip: Flow<MovieClip> = mainUseCase.getLastMovieClip()
+    val lastClip = mainUseCase.getLastMovieClip().asLiveData()
 
-    val lastClip: StateFlow<MovieClip?> = _lastClip.stateIn(
-        scope = viewModelScope,
-        started = WhileSubscribed(5000),
-        initialValue = _data.value.lastClip
-    )
+//    val lastClip: StateFlow<MovieClip?> = _lastClip.stateIn(
+//        scope = viewModelScope,
+//        started = WhileSubscribed(5000),
+//        initialValue = _data.value.lastClip
+//    )
 
 }
